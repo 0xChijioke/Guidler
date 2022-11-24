@@ -1,62 +1,6 @@
-# Happiverse 🏗 Scaffold-ETH
-
-[Happiverse](https://behappi.surge.sh/) is made up of two smart contracts, Smile.sol and Happi.sol which are deployed on Rinkeby for now. You can mint smiles, add them to a Happi and watch them get jumpy on chain due to deterministic randomness used in computing its transition.
-
-![Homepage](https://github.com/EngrGord/Happiverse/blob/master/assets/Screenshot%202022-08-19%20at%2009-27-06%20Ethereum%20App.png)
-
-![Smile](https://github.com/EngrGord/Happiverse/blob/master/assets/Screenshot%202022-08-18%20at%2010-56-48%20Ethereum%20App.png)
-
-The project is a composition of the [composable-svg-nft]( https://github.com/scaffold-eth/scaffold-eth/tree/composable-svg-nft), and [oe-loogie-tank](https://github.com/scaffold-eth/scaffold-eth/tree/oe-loogie-tank-prod) branches of schaffold-eth.
+# Guidler 🏗 Scaffold-ETH
 
 
-This Scaffold-eth & Chakra UI buidl is based on the idea of on-chain composable NFTs, where on-chain nfts hold other nfts, the possibilties of this concept is endless.
-Fork this buidl and thinker around with it locally make a PR or build something better!
-
-
-Any nft that implements the `public` render function can be rendered into the Happiverse, this is possible because Happi.sol inherits the `IERCReciever` which allow this nft to recieve and render other nfts that implement the `public` render fuction.
-
-![Happiverse](https://github.com/EngrGord/Happiverse/blob/master/assets/Screenshot%202022-08-19%20at%2014-58-44%20Ethereum%20App.png)
-
-
-```
- // to receive ERC721 tokens
-  function onERC721Received(
-      address operator,
-      address from,
-      uint256 smileTokenId,
-      bytes calldata happiIdData) external override returns (bytes4) {
-
-      uint256 happiId = toUint256(happiIdData);
-      require(ownerOf(happiId) == from, "you can only add smiles to your own happi.");
-      require(smileById[happiId].length < 256, "Excess joy! Cant take anymore.");
-
-      smileById[happiId].push(smileTokenId);
-
-      bytes32 randish = keccak256(abi.encodePacked( blockhash(block.number-1), from, address(this), smileTokenId, happiIdData  ));
-      x[smileTokenId] = uint8(randish[0]);
-      y[smileTokenId] = uint8(randish[1]);
-      blockAdded[smileTokenId] = block.number;
-
-      return this.onERC721Received.selector;
-    }
-```
-
-Smiles can transfered to Happi and is rendered because it implements the `public` render function which allows other contracts to render its data.
-
-
-```
-// Visibility is `public` to enable it being called by other contracts for composition.
-  function renderTokenById(uint256 id) public view returns (string memory) {
-    string memory render = string(abi.encodePacked(
-      '<g transform="translate(60 60)"><circle r="50" stroke="#000" stroke-width="2" fill="#',
-      color[id].toColor(),
-      '"/><circle cx="-20" cy="-10" r="5"/><circle cx="20" cy="-10" r="5"/><path fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" d="M-20 15c0 20 40 20 40 0"/></g>'
-     
-        ));
-
-    return render;
-  }
-```
 
 
 > everything you need to build on Ethereum! 🚀
@@ -73,13 +17,13 @@ Prerequisites: [Node (v16 LTS)](https://nodejs.org/en/download/) plus [Yarn](htt
 > clone/fork 🏗 scaffold-eth:
 
 ```bash
-git clone https://github.com/EngrGord/Happiverse.git
+git clone https://github.com/EngrGord/Guidler.git
 ```
 
 > install and start your 👷‍ Hardhat chain:
 
 ```bash
-cd Happiverse
+cd Guidler
 yarn install
 yarn chain
 ```
@@ -87,14 +31,14 @@ yarn chain
 > in a second terminal window, start your 📱 frontend:
 
 ```bash
-cd Happiverse
+cd Guidler
 yarn start
 ```
 
 > in a third terminal window, 🛰 deploy your contract:
 
 ```bash
-cd Happiverse
+cd Guidler
 yarn deploy
 ```
 
