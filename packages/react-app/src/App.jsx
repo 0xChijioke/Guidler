@@ -68,7 +68,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const initialNetwork = NETWORKS.rinkeby; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const initialNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -183,17 +183,17 @@ function App(props) {
   ]);
 
   // keep track of a variable from the contract in the local React state:
-  const smileBalance = useContractReader(readContracts, "Smile", "balanceOf", [address]);
+  const smileBalance = useContractReader(readContracts, "Castle", "balanceOf", [address]);
   console.log("🤗 Smile balance:", smileBalance);
 
-  const happiBalance = useContractReader(readContracts, "Happi", "balanceOf", [address]);
+  const happiBalance = useContractReader(readContracts, "Noob", "balanceOf", [address]);
   console.log("🤗 Happi balance:", happiBalance);
 
   // 📟 Listen for broadcast events
-  const smileTransferEvents = useEventListener(readContracts, "Smile", "Transfer", localProvider, 1);
+  const smileTransferEvents = useEventListener(readContracts, "Castle", "Transfer", localProvider, 1);
   console.log("📟 Smile Transfer events:", smileTransferEvents);
 
-  const happiTankTransferEvents = useEventListener(readContracts, "Happi", "Transfer", localProvider, 1);
+  const happiTankTransferEvents = useEventListener(readContracts, "Noob", "Transfer", localProvider, 1);
   console.log("📟 Happi Transfer events:", happiTankTransferEvents);
 
   //
@@ -210,10 +210,10 @@ function App(props) {
     for (let tokenIndex = 0; tokenIndex < yourHappiBalance; tokenIndex++) {
       try {
         console.log("Getting token index", tokenIndex);
-        const tokenId = await readContracts.Happi.tokenOfOwnerByIndex(address, tokenIndex);
+        const tokenId = await readContracts.Noob.tokenOfOwnerByIndex(address, tokenIndex);
         console.log("tokenId", tokenId);
-        console.log(readContracts.Happi.tokenURI(tokenId));
-        const tokenURI = await readContracts.Happi.tokenURI(tokenId);
+        console.log(readContracts.Noob.tokenURI(tokenId));
+        const tokenURI = await readContracts.Noob.tokenURI(tokenId);
         console.log("tokenURI", tokenURI);
         const jsonManifestString = atob(tokenURI.substring(29));
         console.log("jsonManifestString", jsonManifestString);
@@ -238,9 +238,9 @@ function App(props) {
       for (let tokenIndex = 0; tokenIndex < yourSmileBalance; tokenIndex++) {
         try {
           console.log("Getting token index", tokenIndex);
-          const tokenId = await readContracts.Smile.tokenOfOwnerByIndex(address, tokenIndex);
+          const tokenId = await readContracts.Castle.tokenOfOwnerByIndex(address, tokenIndex);
           console.log("tokenId", tokenId);
-          const tokenURI = await readContracts.Smile.tokenURI(tokenId);
+          const tokenURI = await readContracts.Castle.tokenURI(tokenId);
           console.log("tokenURI", tokenURI);
           const jsonManifestString = atob(tokenURI.substring(29));
           console.log("jsonManifestString", jsonManifestString);
@@ -422,7 +422,7 @@ function App(props) {
             <Button
               onClick={async () => {
                 setPending(true);
-                await tx(writeContracts.Smile.mintItem());
+                await tx(writeContracts.Castle.mintItem());
                 setPending(false);
               }}
               isLoading={pending}
@@ -475,16 +475,16 @@ function App(props) {
                             my={3}
                             onClick={() => {
                               console.log("writeContracts", writeContracts);
-                              tx(writeContracts.Smile.transferFrom(address, transferToAddresses[id], id));
+                              tx(writeContracts.Castle.transferFrom(address, transferToAddresses[id], id));
                             }}
                           >
                             Transfer
                           </Button>
                           <br />
                           <Flex direction={"row"} justify={"center"} align={"center"}>
-                            <Text pr={2}>Transfer to Happi:</Text>
+                            <Text pr={2}>Transfer to Noob:</Text>
                             <Address
-                              address={readContracts.Happi.address}
+                              address={readContracts.Noob.address}
                               blockExplorer={blockExplorer}
                               fontSize={16}
                             />
@@ -538,7 +538,7 @@ function App(props) {
               mr={5}
               onClick={async () => {
                 setPending(true);
-                await tx(writeContracts.Happi.mintItem());
+                await tx(writeContracts.Noob.mintItem());
                 setPending(false);
               }}
               isLoading={pending}

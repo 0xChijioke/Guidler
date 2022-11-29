@@ -10,7 +10,7 @@ export default function Header({ link, title, subTitle, ...props }) {
         <a href={link} target="_blank" rel="noopener noreferrer">
           <Heading
             style={{ margin: "0 0.5rem 0 0" }}
-            bgGradient="linear(to-l, #7928CA, #FF0080)"
+            bgGradient="linear(to-l, #660000, #990000)"
             bgClip="text"
             fontSize={{ base: "xl", md: "4xl" }}
             fontWeight="extrabold"
@@ -29,6 +29,6 @@ export default function Header({ link, title, subTitle, ...props }) {
 
 Header.defaultProps = {
   link: "https://github.com/EngrGord/Schaffold-buidls/tree/composable-SVG",
-  title: "HappiVerse",
+  title: "Guidler",
   subTitle: "On-chain SVG NFT",
 };

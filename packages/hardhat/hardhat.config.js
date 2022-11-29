@@ -27,7 +27,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 // Select the network you want to deploy to here:
 //
-const defaultNetwork = "rinkeby";
+const defaultNetwork = "localhost";
 
 const mainnetGwei = 21;
 
@@ -67,6 +67,7 @@ module.exports = {
   networks: {
     localhost: {
       url: "http://localhost:8545",
+      gasPrice: 1000000000,
       allowUnlimitedContractSize: true,
       /*      
         notice no mnemonic here? it will just use account 0 of the hardhat node to deploy
@@ -266,20 +267,21 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.4",
+        version: "0.8.12",
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
+            runs: 1,
+            details: { yul: false },
           },
         },
       },
       {
-        version: "0.6.7",
+        version: "0.8.7",
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
+            runs: 1,
           },
         },
       },

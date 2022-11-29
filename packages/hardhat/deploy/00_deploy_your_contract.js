@@ -17,7 +17,12 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  const smile = await deploy("Smile", {
+  // const cape = await deploy("Cape", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  const arms = await deploy("Arms", {
     from: deployer,
     args: [],
     log: true,
@@ -26,9 +31,9 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   // Getting a previously deployed contract
   // const SmileAddr = await ethers.getContract("Smile", deployer);
 
-  const happi = await deploy("Happi", {
+  const noob = await deploy("Noob", {
     from: deployer,
-    args: [smile.address],
+    args: [arms.address],
     log: true,
   });
 
@@ -81,4 +86,4 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   //   console.error(error);
   // }
 };
-module.exports.tags = ["Smile", "Happi"];
+module.exports.tags = [ "Noob", "Arms" ];
