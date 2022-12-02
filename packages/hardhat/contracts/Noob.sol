@@ -9,13 +9,13 @@ import './HexStrings.sol';
 // import "hardhat/console.sol";
 
 
-abstract contract peContract {
+abstract contract CapeContract {
   mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 
-contract Noob is ERC721Enumerable, IERC721Receiver {
+abstract contract Noob is ERC721Enumerable, IERC721Receiver {
 
   using Strings for uint256;
   using Strings for uint8;
@@ -113,23 +113,23 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
   mapping(uint256 => uint256) blockAdded;
 
   // to receive ERC721 tokens
-  function onERC721Received(
-      address operator,
-      address from,
-      uint256 capeTokenId,
-      bytes calldata noobIdData) external override returns (bytes4) {
+//   function onERC721Received(
+//       address operator,
+//       address from,
+//       uint256 capeTokenId,
+//       bytes calldata noobIdData) external override returns (bytes4) {
 
-      uint256 noobId = toUint256(noobIdData);
-      require(ownerOf(noobId) == from, "you can only add smiles to your own happi.");
-      require(capeById[noobId].length < 256, "Excess joy! Cant take anymore.");
+//       uint256 noobId = toUint256(noobIdData);
+//     //   require(ownerOf(noobId) == from, "you can only add smiles to your own happi.");
+//     //   require(capeById[noobId].length < 256, "Excess joy! Cant take anymore.");
 
-      capeById[noobId].push(capeTokenId);
+//       capeById[noobId].push(capeTokenId);
 
-      bytes32 randish = keccak256(abi.encodePacked( blockhash(block.number-1), from, address(this), capeTokenId, noobIdData  ));
-      x[capeTokenId] = uint8(randish[0]);
-      y[capeTokenId] = uint8(randish[1]);
-      blockAdded[capeTokenId] = block.number;
+//       bytes32 randish = keccak256(abi.encodePacked( blockhash(block.number-1), from, address(this), capeTokenId, noobIdData  ));
+//       x[capeTokenId] = uint8(randish[0]);
+//       y[capeTokenId] = uint8(randish[1]);
+//       blockAdded[capeTokenId] = block.number;
 
-      return this.onERC721Received.selector;
-    }
+//       return this.onERC721Received.selector;
+//     }
 }

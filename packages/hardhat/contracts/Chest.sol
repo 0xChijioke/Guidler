@@ -14,7 +14,7 @@ import './ToColor.sol';
 
 // GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
 
-contract Cape is ERC721Enumerable, Ownable {
+contract Chest is ERC721Enumerable, Ownable {
 
   using Strings for uint256;
   using HexStrings for uint160;
@@ -22,7 +22,7 @@ contract Cape is ERC721Enumerable, Ownable {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  constructor() ERC721("Castle", "CASTLE") {
+  constructor() ERC721("Breast Plate", "BP") {
     // BE HAPPY!
   }
 
@@ -90,8 +90,8 @@ contract Cape is ERC721Enumerable, Ownable {
   function generateSVGofTokenById(uint256 id) internal view returns (string memory) {
 
     string memory svg = string(abi.encodePacked(
-      '<svg width="100%" height="100%" viewBox="0 0 2048 1536" version="1.1" xmlns="http://www.w3.org/2000/svg',
-      '" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/',
+      '<svg width="100%" height="100%" viewBox="0 0 2048 1536" version="1.1" xmlns="http://www.w3.org/2000/svg'
+      '" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/'
       '" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">',
         renderTokenById(id),
       '</svg>'
@@ -103,11 +103,9 @@ contract Cape is ERC721Enumerable, Ownable {
   // Visibility is `public` to enable it being called by other contracts for composition.
   function renderTokenById(uint256 id) public view returns (string memory) {
     string memory render = string(abi.encodePacked(
-      '<g id="_1-Layer4" serif:id="1 Layer4">',
-        '<g id="cape-back" serif:id="cape back">',
-            '<rect x="839.908" y="533.945" width="405.002" height="814.834" style="fill:rgb(195,34,34);"/>',
-            '<path d="M1250.79,533.945C1250.79,530.528 1248.16,527.759 1244.91,527.759C1244.91,527.759 839.908,526.593 839.908,526.593C835.847,526.593 832.555,529.884 832.555,533.945L830.853,1348.78C830.853,1353.78 834.907,1357.83 839.908,1357.83L1244.91,1357.65C1249.81,1357.65 1253.78,1353.68 1253.78,1348.78C1253.78,1348.78 1253.31,1145.07 1252.56,941.362C1251.82,737.651 1250.79,533.945 1250.79,533.945ZM1239,540.147C1238.82,575.709 1237.93,758.533 1237.26,941.362C1236.6,1120.01 1236.16,1298.65 1236.06,1339.91C1236.06,1339.91 848.943,1339.73 848.943,1339.73C848.768,1255.95 847.433,617.022 847.275,541.276L1239,540.147Z"/>',
-        '</g>',
+      '<g id="_2-breast-plate" serif:id="2 breast plate">',
+        '<rect x="885.159" y="550.614" width="320.246" height="344.169" style="fill:rgb(252,239,239);"/>',
+        '<path d="M1211.29,550.614C1211.29,547.197 1208.65,544.428 1205.4,544.428C1205.4,544.428 885.159,542.777 885.159,542.777C880.831,542.777 877.323,546.286 877.323,550.614L876.105,894.782C876.105,899.783 880.159,903.837 885.159,903.837C885.159,903.837 965.221,903.991 1045.28,903.83C1125.35,903.668 1205.4,903.19 1205.4,903.19C1210.05,903.19 1213.81,899.426 1213.81,894.782L1211.29,550.614ZM1199.48,556.83C1199.48,556.83 1197.44,834.029 1197.06,886.327C1174.55,886.203 1109.92,885.866 1045.28,885.735C981.285,885.606 917.287,885.679 894.182,885.713C894.182,885.713 893.202,608.74 893.024,558.41C941.666,558.159 1199.48,556.83 1199.48,556.83L1199.48,556.83Z"/>',
     '</g>'
      
         ));

@@ -17,25 +17,71 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  // const cape = await deploy("Cape", {
-  //   from: deployer,
-  //   args: [],
-  //   log: true,
-  // });
+  const cape = await deploy("Cape", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const Cape = await ethers.getContract("Cape", deployer);
+  const noob = await deploy("Noob", {
+    from: deployer,
+    args: [Cape.address],
+    log: true,
+  });
   const arms = await deploy("Arms", {
     from: deployer,
     args: [],
     log: true,
   });
+  const chest = await deploy("Chest", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const capeFront = await deploy("CapeFront", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const boots = await deploy("Boots", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const waist = await deploy("Waist", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const headmail = await deploy("HeadMail", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const helmet = await deploy("Helmet", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const ethlogo = await deploy("ETHLogo", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const sword = await deploy("Sword", {
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  // const castle = await deploy("Castle", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
   
   // Getting a previously deployed contract
   // const SmileAddr = await ethers.getContract("Smile", deployer);
 
-  const noob = await deploy("Noob", {
-    from: deployer,
-    args: [arms.address],
-    log: true,
-  });
 
   /*  await YourContract.setPurpose("Hello");
   
@@ -86,4 +132,4 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   //   console.error(error);
   // }
 };
-module.exports.tags = [ "Noob", "Arms" ];
+module.exports.tags = [ "Castle", "Arms", "Cape","Chest", "Noob" ];
