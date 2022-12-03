@@ -25,9 +25,9 @@ abstract contract Noob is ERC721Enumerable, IERC721Receiver {
   Counters.Counter private _tokenIds;
 
   CapeContract cape;
-  mapping(uint256 => uint256[]) smileById;
+  mapping(uint256 => uint256[]) capeById;
 
-  constructor(address _cape) ERC721("Noob", "NOOB") {
+  constructor() ERC721("Noob", "NOOB") {
     cape = CapeContract(_cape);
   }
 

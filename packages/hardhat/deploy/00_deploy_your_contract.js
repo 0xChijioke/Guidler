@@ -22,12 +22,6 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     args: [],
     log: true,
   });
-  const Cape = await ethers.getContract("Cape", deployer);
-  const noob = await deploy("Noob", {
-    from: deployer,
-    args: [Cape.address],
-    log: true,
-  });
   const arms = await deploy("Arms", {
     from: deployer,
     args: [],
@@ -74,11 +68,16 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     log: true,
   });
   // const castle = await deploy("Castle", {
-  //   from: deployer,
-  //   args: [],
-  //   log: true,
-  // });
-  
+    //   from: deployer,
+    //   args: [],
+    //   log: true,
+    // });
+    const noob = await deploy("Noob", {
+      from: deployer,
+      args: [cape.address],
+      log: true,
+    });
+    
   // Getting a previously deployed contract
   // const SmileAddr = await ethers.getContract("Smile", deployer);
 
