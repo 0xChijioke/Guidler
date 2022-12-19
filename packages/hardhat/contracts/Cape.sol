@@ -22,9 +22,7 @@ contract Cape is ERC721Enumerable, Ownable {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  constructor() ERC721("Castle", "CASTLE") {
-    // BE HAPPY!
-  }
+  constructor() ERC721("Cape", "CAPE") {}
 
   mapping (uint256 => bytes3) public color;
   mapping(uint256 => bytes32) public genes;

@@ -22,51 +22,51 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     args: [],
     log: true,
   });
-  const arms = await deploy("Arms", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-  const chest = await deploy("Chest", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-  const capeFront = await deploy("CapeFront", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-  const boots = await deploy("Boots", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-  const waist = await deploy("Waist", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-  const headmail = await deploy("HeadMail", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-  const helmet = await deploy("Helmet", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-  const ethlogo = await deploy("ETHLogo", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-  const sword = await deploy("Sword", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
+  // const arms = await deploy("Arms", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  // const chest = await deploy("Chest", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  // const capeFront = await deploy("CapeFront", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  // const boots = await deploy("Boots", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  // const waist = await deploy("Waist", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  // const headmail = await deploy("HeadMail", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  // const helmet = await deploy("Helmet", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  // const ethlogo = await deploy("ETHLogo", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
+  // const sword = await deploy("Sword", {
+  //   from: deployer,
+  //   args: [],
+  //   log: true,
+  // });
   // const castle = await deploy("Castle", {
     //   from: deployer,
     //   args: [],

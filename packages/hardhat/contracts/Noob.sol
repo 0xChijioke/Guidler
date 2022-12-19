@@ -25,9 +25,9 @@ abstract contract Noob is ERC721Enumerable, IERC721Receiver {
   Counters.Counter private _tokenIds;
 
   CapeContract cape;
-  mapping(uint256 => uint256[]) capeById;
+  mapping(uint256 => uint256) capeById;
 
-  constructor() ERC721("Noob", "NOOB") {
+  constructor(address _cape) ERC721("Noob", "NOOB") {
     cape = CapeContract(_cape);
   }
 
@@ -92,6 +92,33 @@ abstract contract Noob is ERC721Enumerable, IERC721Receiver {
     ));
 
     return svg;
+  }
+
+   // Visibility is `public` to enable it being called by other contracts for composition.
+  function renderTokenById(uint256 id) public view returns (string memory) {
+    string memory render = string(abi.encodePacked(
+       '<rect x="0" y="0" width="370" height="370" stroke="black" fill="#001649" stroke-width="5"/>',
+       // - (0.3, the scaling factor) * smile (cx, cy).
+       // Without this, the smile move in rectangle translated towards bottom-right.
+       '<g transform="translate(0 -7)">',
+       renderCape(id),
+       '</g>'
+    ));
+
+    return render;
+  }
+
+  function renderCape(uint256 _id) internal view returns (string memory) {
+    string memory capeSVG = "";
+
+    capeSVG = string(abi.encodePacked(
+      capeSVG,
+        '<g>',
+        cape.renderTokenById(capeById[_id]),
+        '</g>'));
+    
+
+    return capeSVG;
   }
 
   
