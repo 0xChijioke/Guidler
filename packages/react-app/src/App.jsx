@@ -174,7 +174,7 @@ function App(props) {
 
   // call every 1500 seconds.
   usePoller(() => {
-    updateHappi();
+    updateGuidler();
   }, 1500000);
 
   // Then read your DAI balance like:
@@ -183,31 +183,49 @@ function App(props) {
   ]);
 
   // keep track of a variable from the contract in the local React state:
-  const smileBalance = useContractReader(readContracts, "Castle", "balanceOf", [address]);
-  console.log("🤗 Smile balance:", smileBalance);
+  const capeBalance = useContractReader(readContracts, "Cape", "balanceOf", [address]);
+  console.log("🤗 Cape balance:", capeBalance);
+  const armsBalance = useContractReader(readContracts, "Arms", "balanceOf", [address]);
+  console.log("🤗 Arms balance:", armsBalance);
+  const chestBalance = useContractReader(readContracts, "Chest", "balanceOf", [address]);
+  console.log("🤗 Chest balance:", chestBalance);
+  const capeFrontBalance = useContractReader(readContracts, "CapeFront", "balanceOf", [address]);
+  console.log("🤗 CapeFront balance:", capeFrontBalance);
+  const bootsBalance = useContractReader(readContracts, "Boots", "balanceOf", [address]);
+  console.log("🤗 Boots balance:", bootsBalance);
+  const waistBalance = useContractReader(readContracts, "Waist", "balanceOf", [address]);
+  console.log("🤗 Waist balance:", waistBalance);
+  const headmailBalance = useContractReader(readContracts, "Headmail", "balanceOf", [address]);
+  console.log("🤗 Headmail balance:", headmailBalance);
+  const helmetBalance = useContractReader(readContracts, "Helmet", "balanceOf", [address]);
+  console.log("🤗 Helmet balance:", helmetBalance);
+  const ethlogoBalance = useContractReader(readContracts, "ETHLogo", "balanceOf", [address]);
+  console.log("🤗 ETHLogo balance:", ethlogoBalance);
+  const swordBalance = useContractReader(readContracts, "Sword", "balanceOf", [address]);
+  console.log("🤗 Sword balance:", swordBalance);
 
-  const happiBalance = useContractReader(readContracts, "Noob", "balanceOf", [address]);
-  console.log("🤗 Happi balance:", happiBalance);
+  const guidlerBalance = useContractReader(readContracts, "Noob", "balanceOf", [address]);
+  console.log("🤗 Guidler balance:", guidlerBalance);
 
   // 📟 Listen for broadcast events
-  const smileTransferEvents = useEventListener(readContracts, "Castle", "Transfer", localProvider, 1);
-  console.log("📟 Smile Transfer events:", smileTransferEvents);
+  const capeTransferEvents = useEventListener(readContracts, "Cape", "Transfer", localProvider, 1);
+  console.log("📟 Cape Transfer events:", capeTransferEvents);
 
-  const happiTankTransferEvents = useEventListener(readContracts, "Noob", "Transfer", localProvider, 1);
-  console.log("📟 Happi Transfer events:", happiTankTransferEvents);
+  const guidlerTransferEvents = useEventListener(readContracts, "Noob", "Transfer", localProvider, 1);
+  console.log("📟 Guidler Transfer events:", guidlerTransferEvents);
 
   //
   // 🧠 This effect will update yourCollectibles by polling when your balance changes
   //
-  const yourSmileBalance = smileBalance && smileBalance.toNumber && smileBalance.toNumber();
-  const [yourSmile, setYourSmile] = useState();
+  const yourCapeBalance = capeBalance && capeBalance.toNumber && capeBalance.toNumber();
+  const [yourCape, setYourCape] = useState();
 
-  const yourHappiBalance = happiBalance && happiBalance.toNumber && happiBalance.toNumber();
-  const [yourHappi, setYourHappi] = useState();
+  const yourGuidlerBalance = guidlerBalance && guidlerBalance.toNumber && guidlerBalance.toNumber();
+  const [yourGuidler, setYourGuidler] = useState();
 
-  async function updateHappi() {
-    const happiUpdate = [];
-    for (let tokenIndex = 0; tokenIndex < yourHappiBalance; tokenIndex++) {
+  async function updateGuidler() {
+    const guidlerUpdate = [];
+    for (let tokenIndex = 0; tokenIndex < yourGuidlerBalance; tokenIndex++) {
       try {
         console.log("Getting token index", tokenIndex);
         const tokenId = await readContracts.Noob.tokenOfOwnerByIndex(address, tokenIndex);
@@ -221,7 +239,7 @@ function App(props) {
         try {
           const jsonManifest = JSON.parse(jsonManifestString);
           console.log("jsonManifest", jsonManifest);
-          happiUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
+          guidlerUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
         } catch (e) {
           console.log(e);
         }
@@ -229,18 +247,18 @@ function App(props) {
         console.log(e);
       }
     }
-    setYourHappi(happiUpdate.reverse());
+    setYourGuidler(guidlerUpdate.reverse());
   }
 
   useEffect(() => {
     const updateYourCollectibles = async () => {
-      const smileUpdate = [];
-      for (let tokenIndex = 0; tokenIndex < yourSmileBalance; tokenIndex++) {
+      const capeUpdate = [];
+      for (let tokenIndex = 0; tokenIndex < yourCapeBalance; tokenIndex++) {
         try {
           console.log("Getting token index", tokenIndex);
-          const tokenId = await readContracts.Castle.tokenOfOwnerByIndex(address, tokenIndex);
+          const tokenId = await readContracts.Cape.tokenOfOwnerByIndex(address, tokenIndex);
           console.log("tokenId", tokenId);
-          const tokenURI = await readContracts.Castle.tokenURI(tokenId);
+          const tokenURI = await readContracts.Cape.tokenURI(tokenId);
           console.log("tokenURI", tokenURI);
           const jsonManifestString = atob(tokenURI.substring(29));
           console.log("jsonManifestString", jsonManifestString);
@@ -252,7 +270,7 @@ function App(props) {
           try {
             const jsonManifest = JSON.parse(jsonManifestString);
             console.log("jsonManifest", jsonManifest);
-            smileUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
+            capeUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
           } catch (e) {
             console.log(e);
           }
@@ -260,11 +278,11 @@ function App(props) {
           console.log(e);
         }
       }
-      setYourSmile(smileUpdate.reverse());
-      updateHappi();
+      setYourCape(capeUpdate.reverse());
+      updateGuidler();
     };
     updateYourCollectibles();
-  }, [address, yourSmileBalance, yourHappiBalance]);
+  }, [address, yourCapeBalance, yourGuidlerBalance]);
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -385,8 +403,17 @@ function App(props) {
       />
 
       <Stack direction={"row"} align={"center"} justify={"center"} spacing={77}>
-        <Link to={"/"}>Smile</Link>
-        <Link to={"/minthappi"}>Mint Happi</Link>
+        <Link to={"/"}>Guilder</Link>
+        <Link to={"/cape"}>Cape</Link>
+        <Link to={"/arms"}>Arms</Link>
+        <Link to={"/chest"}>Chest</Link>
+        <Link to={"/capefront"}>CapeFront</Link>
+        <Link to={"/boots"}>Boots</Link>
+        <Link to={"/waist"}>Waist</Link>
+        <Link to={"/headmail"}>Headmail</Link>
+        <Link to={"/helmet"}>Helmet</Link>
+        <Link to={"/ethlogo"}>ETHLogo</Link>
+        <Link to={"/sword"}>Sword</Link>
       </Stack>
 
       <Switch>
@@ -417,12 +444,99 @@ function App(props) {
             contractConfig={contractConfig}
           />
         </Route> */}
-        <Route exact path="/">
-          <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
+        <Route exact path="/">          
+          <Flex w={"full"} direction={"row-reverse"}>
+            <Button
+              mr={5}
+              onClick={async () => {
+                setPending(true);
+                await tx(writeContracts.Noob.mintItem());
+                setPending(false);
+              }}
+              isLoading={pending}
+              loadingText="Minting"
+            >
+              MINT
+            </Button>
+            <Button mr={5} onClick={() => updateGuidler()}>
+              Refresh
+            </Button>
+          </Flex>
+          {/* */}
+
+          <Container boxShadow="dark-lg" rounded="3xl" p={4} w={"fit-content"}>
+            <List>
+              {yourGuidler &&
+                yourGuidler.map(item => {
+                  const id = item.id.toNumber();
+
+                  console.log("IMAGE", item.image);
+
+                  return (
+                    <ListItem key={id + "_" + item.uri + "_" + item.owner}>
+                      <Flex direction={"column"}>
+                        <Heading fontFamily={"monospace"}>{item.name}</Heading>
+                        <Image borderRadius={"2xl"} src={item.image} />
+                        <Text>{item.description}</Text>
+                      </Flex>
+
+                      <Flex my={2} alignItems={"center"} justify={"center"} direction={"column"}>
+                        <Flex direction={"row"} justify={"center"} align={"center"}>
+                          <Text pr={2}>Owner</Text>
+                          <Address
+                            address={item.owner}
+                            ensProvider={mainnetProvider}
+                            blockExplorer={blockExplorer}
+                            fontSize={16}
+                          />
+                        </Flex>
+                        <Flex direction={"column"} alignItems={"center"} w={"fit-content"}>
+                          <AddressInput
+                            ensProvider={mainnetProvider}
+                            placeholder="Transfer to address"
+                            value={transferToAddresses[id]}
+                            onChange={newValue => {
+                              const update = {};
+                              update[id] = newValue;
+                              setTransferToAddresses({ ...transferToAddresses, ...update });
+                            }}
+                          />
+                        </Flex>
+                        <HStack my={3}>
+                          <Button
+                            onClick={() => {
+                              console.log("writeContracts", writeContracts);
+                              tx(writeContracts.Cape.transferFrom(address, transferToAddresses[id], id));
+                            }}
+                          >
+                            Transfer
+                          </Button>
+                          <br />
+                          <br />
+                          <Button
+                            onClick={async () => {
+                              setPending(true);
+                              await tx(writeContracts.Happi.returnAllSmiles(id));
+                              setPending(false);
+                            }}
+                            isLoading={pending}
+                          >
+                            Remove Smiles
+                          </Button>
+                        </HStack>
+                      </Flex>
+                    </ListItem>
+                  );
+                })}
+            </List>
+          </Container>
+        </Route>
+        <Route exact path="/cape">
+        <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
             <Button
               onClick={async () => {
                 setPending(true);
-                await tx(writeContracts.Castle.mintItem());
+                await tx(writeContracts.Cape.mintItem());
                 setPending(false);
               }}
               isLoading={pending}
@@ -433,8 +547,8 @@ function App(props) {
           {/* */}
           <Container boxShadow="dark-lg" rounded="2xl" p={4} w={"fit-content"}>
             <List>
-              {yourSmile &&
-                yourSmile.map(item => {
+              {yourCape &&
+                yourCape.map(item => {
                   const id = item.id.toNumber();
 
                   console.log("IMAGE", item.image);
@@ -475,7 +589,7 @@ function App(props) {
                             my={3}
                             onClick={() => {
                               console.log("writeContracts", writeContracts);
-                              tx(writeContracts.Castle.transferFrom(address, transferToAddresses[id], id));
+                              tx(writeContracts.Cape.transferFrom(address, transferToAddresses[id], id));
                             }}
                           >
                             Transfer
@@ -491,7 +605,7 @@ function App(props) {
                           </Flex>
 
                           <Input
-                            placeholder="HAPPI ID"
+                            placeholder="GUIDLER ID"
                             onChange={newValue => {
                               console.log("newValue", newValue.target.value);
                               const update = {};
@@ -512,9 +626,9 @@ function App(props) {
                               console.log(tankIdInBytes);
 
                               tx(
-                                writeContracts.Smile["safeTransferFrom(address,address,uint256,bytes)"](
+                                writeContracts.Cape["safeTransferFrom(address,address,uint256,bytes)"](
                                   address,
-                                  readContracts.Happi.address,
+                                  readContracts.Noob.address,
                                   id,
                                   tankIdInBytes,
                                 ),
@@ -530,95 +644,6 @@ function App(props) {
                 })}
             </List>
           </Container>
-          {/* */}
-        </Route>
-        <Route exact path="/minthappi">
-          <Flex w={"full"} direction={"row-reverse"}>
-            <Button
-              mr={5}
-              onClick={async () => {
-                setPending(true);
-                await tx(writeContracts.Noob.mintItem());
-                setPending(false);
-              }}
-              isLoading={pending}
-              loadingText="Minting"
-            >
-              MINT
-            </Button>
-            <Button mr={5} onClick={() => updateHappi()}>
-              Refresh
-            </Button>
-          </Flex>
-          {/* */}
-
-          <Container boxShadow="dark-lg" rounded="3xl" p={4} w={"fit-content"}>
-            <List>
-              {yourHappi &&
-                yourHappi.map(item => {
-                  const id = item.id.toNumber();
-
-                  console.log("IMAGE", item.image);
-
-                  return (
-                    <ListItem key={id + "_" + item.uri + "_" + item.owner}>
-                      <Flex direction={"column"}>
-                        <Heading fontFamily={"monospace"}>{item.name}</Heading>
-                        <Image borderRadius={"2xl"} src={item.image} />
-                        <Text>{item.description}</Text>
-                      </Flex>
-
-                      <Flex my={2} alignItems={"center"} justify={"center"} direction={"column"}>
-                        <Flex direction={"row"} justify={"center"} align={"center"}>
-                          <Text pr={2}>Owner</Text>
-                          <Address
-                            address={item.owner}
-                            ensProvider={mainnetProvider}
-                            blockExplorer={blockExplorer}
-                            fontSize={16}
-                          />
-                        </Flex>
-                        <Flex direction={"column"} alignItems={"center"} w={"fit-content"}>
-                          <AddressInput
-                            ensProvider={mainnetProvider}
-                            placeholder="Transfer to address"
-                            value={transferToAddresses[id]}
-                            onChange={newValue => {
-                              const update = {};
-                              update[id] = newValue;
-                              setTransferToAddresses({ ...transferToAddresses, ...update });
-                            }}
-                          />
-                        </Flex>
-                        <HStack my={3}>
-                          <Button
-                            onClick={() => {
-                              console.log("writeContracts", writeContracts);
-                              tx(writeContracts.Smile.transferFrom(address, transferToAddresses[id], id));
-                            }}
-                          >
-                            Transfer
-                          </Button>
-                          <br />
-                          <br />
-                          <Button
-                            onClick={async () => {
-                              setPending(true);
-                              await tx(writeContracts.Happi.returnAllSmiles(id));
-                              setPending(false);
-                            }}
-                            isLoading={pending}
-                          >
-                            Remove Smiles
-                          </Button>
-                        </HStack>
-                      </Flex>
-                    </ListItem>
-                  );
-                })}
-            </List>
-          </Container>
-
           {/* */}
         </Route>
       </Switch>
