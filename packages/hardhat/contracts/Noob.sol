@@ -10,60 +10,45 @@ import './HexStrings.sol';
 
 
 abstract contract CapeContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract ArmsContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract ChestContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract CapeFrontContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract BootsContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract WaistContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract HeadmailContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract HelmetContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract ETHLogoContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 abstract contract SwordContract {
-  mapping(uint256 => bytes32) public genes;
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
-// abstract contract CastleContract {
-//   mapping(uint256 => bytes32) public genes;
-//   function renderTokenById(uint256 id) external virtual view returns (string memory);
-//   function transferFrom(address from, address to, uint256 id) external virtual;
-// }
 
 contract Noob is ERC721Enumerable, IERC721Receiver {
 
@@ -97,7 +82,18 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
   mapping(uint256 => uint256) swordById;
 //   mapping(uint256 => uint256) castleById;
 
-  constructor(address _cape, address _arms, address _chest, address _capeFront, address _boots, address _waist, address _headmail, address _helmet, address _ethlogo, address _sword) ERC721("Noob", "NOOB") {
+  constructor(
+    address _cape, 
+    address _arms, 
+    address _chest, 
+    address _capeFront, 
+    address _boots, 
+    address _waist, 
+    address _headmail, 
+    address _helmet, 
+    address _ethlogo, 
+    address _sword 
+    ) ERC721("Noob", "NOOB") {
     cape = CapeContract(_cape);
     arms = ArmsContract(_arms);
     chest = ChestContract(_chest);
@@ -169,6 +165,7 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
                 '<rect x="962.034" y="380.869" width="188.078" height="15.908" style="fill:rgb(222,175,175);stroke:black;stroke-width:95.13px;"/>',
             '</g>',
         '</g>',
+        renderFrontTokenById(id),
     '</svg>'
     ));
 
@@ -180,6 +177,14 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
     string memory render = string(abi.encodePacked(
        '<g>',
         renderCape(id),
+       '</g>'
+    ));
+
+    return render;
+  }
+  function renderFrontTokenById(uint256 id) public view returns (string memory) {
+    string memory render = string(abi.encodePacked(
+       '<g>',
         renderArms(id),
         renderChest(id),
         renderCapeFront(id),

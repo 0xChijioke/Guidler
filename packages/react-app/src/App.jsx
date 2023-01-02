@@ -513,7 +513,7 @@ function App(props) {
                           </Button>
                           <br />
                           <br />
-                          <Button
+                          {/* <Button
                             onClick={async () => {
                               setPending(true);
                               await tx(writeContracts.Happi.returnAllSmiles(id));
@@ -522,7 +522,7 @@ function App(props) {
                             isLoading={pending}
                           >
                             Remove Smiles
-                          </Button>
+                          </Button> */}
                         </HStack>
                       </Flex>
                     </ListItem>
