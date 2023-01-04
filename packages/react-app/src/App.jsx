@@ -71,7 +71,7 @@ const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
-const DEBUG = false;
+const DEBUG = true;
 const NETWORKCHECK = true;
 const USE_BURNER_WALLET = true; // toggle burner wallet feature
 const USE_NETWORK_SELECTOR = false;
@@ -356,7 +356,7 @@ function App(props) {
 
   const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
   const [transferToAddresses, setTransferToAddresses] = useState({});
-  const [transferToTankId, setTransferToTankId] = useState({});
+  const [transferToGuidlerId, setTransferToGuidlerId] = useState({});
   const [pending, setPending] = useState(false);
 
   return (
@@ -531,6 +531,8 @@ function App(props) {
             </List>
           </Container>
         </Route>
+
+
         <Route exact path="/cape">
         <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
             <Button
@@ -596,7 +598,7 @@ function App(props) {
                           </Button>
                           <br />
                           <Flex direction={"row"} justify={"center"} align={"center"}>
-                            <Text pr={2}>Transfer to Noob:</Text>
+                            <Text pr={2}>Transfer to Guidler:</Text>
                             <Address
                               address={readContracts.Noob.address}
                               blockExplorer={blockExplorer}
@@ -610,7 +612,9 @@ function App(props) {
                               console.log("newValue", newValue.target.value);
                               const update = {};
                               update[id] = newValue.target.value;
-                              setTransferToTankId({ ...transferToTankId, ...update });
+                              console.log(update);
+                              console.log(transferToGuidlerId);
+                              setTransferToGuidlerId({ ...transferToGuidlerId, ...update });
                             }}
                           />
 
@@ -618,19 +622,19 @@ function App(props) {
                             my={2}
                             onClick={() => {
                               console.log("writeContracts", writeContracts);
-                              console.log("transferToTankId[id]", transferToTankId[id]);
-                              console.log(parseInt(transferToTankId[id]));
+                              console.log("transferToGuidlerId[id]", transferToGuidlerId[id]);
+                              console.log(parseInt(transferToGuidlerId[id]));
 
-                              const tankIdInBytes =
-                                "0x" + parseInt(transferToTankId[id]).toString(16).padStart(64, "0");
-                              console.log(tankIdInBytes);
+                              const guidlerIdInBytes =
+                                "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                              console.log(guidlerIdInBytes);
 
                               tx(
                                 writeContracts.Cape["safeTransferFrom(address,address,uint256,bytes)"](
                                   address,
                                   readContracts.Noob.address,
                                   id,
-                                  tankIdInBytes,
+                                  guidlerIdInBytes,
                                 ),
                               );
                             }}

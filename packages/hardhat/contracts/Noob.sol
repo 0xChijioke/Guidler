@@ -70,16 +70,16 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
   ETHLogoContract ethlogo;
   SwordContract sword;
 //   CastleContract castle;
-  mapping(uint256 => uint256) capeById;
-  mapping(uint256 => uint256) armsById;
-  mapping(uint256 => uint256) chestById;
-  mapping(uint256 => uint256) capeFrontById;
-  mapping(uint256 => uint256) bootsById;
-  mapping(uint256 => uint256) waistById;
-  mapping(uint256 => uint256) headmailById;
-  mapping(uint256 => uint256) helmetById;
-  mapping(uint256 => uint256) ethlogoById;
-  mapping(uint256 => uint256) swordById;
+  mapping(uint256 => uint256[]) capeById;
+  mapping(uint256 => uint256[]) armsById;
+  mapping(uint256 => uint256[]) chestById;
+  mapping(uint256 => uint256[]) capeFrontById;
+  mapping(uint256 => uint256[]) bootsById;
+  mapping(uint256 => uint256[]) waistById;
+  mapping(uint256 => uint256[]) headmailById;
+  mapping(uint256 => uint256[]) helmetById;
+  mapping(uint256 => uint256[]) ethlogoById;
+  mapping(uint256 => uint256[]) swordById;
 //   mapping(uint256 => uint256) castleById;
 
   constructor(
@@ -204,135 +204,136 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
   function renderCape(uint256 _id) internal view returns (string memory) {
     string memory capeSVG = "";
 
-    capeSVG = string(abi.encodePacked(
-      capeSVG,
-        '<g>',
-        cape.renderTokenById(capeById[_id]),
-        '</g>'));
-    
+    // for (uint8 i = 0; i < capeById[_id].length; i++) {
 
+      capeSVG = string(abi.encodePacked(
+        capeSVG,
+          '<g>',
+          cape.renderTokenById(capeById[_id][1]),
+          '</g>'
+          ));
+    
+    // }
     return capeSVG;
   }
   function renderArms(uint256 _id) internal view returns (string memory) {
     string memory armsSVG = "";
 
+    for (uint8 i = 0; i < armsById[_id].length; i++) {
+
     armsSVG = string(abi.encodePacked(
       armsSVG,
         '<g>',
-        arms.renderTokenById(armsById[_id]),
+        arms.renderTokenById(armsById[_id][i]),
         '</g>'));
-    
+    }
 
     return armsSVG;
   }
   function renderChest(uint256 _id) internal view returns (string memory) {
     string memory chestSVG = "";
 
+    for (uint8 i = 0; i < chestById[_id].length; i++) {
+
     chestSVG = string(abi.encodePacked(
       chestSVG,
         '<g>',
-        chest.renderTokenById(chestById[_id]),
+        chest.renderTokenById(chestById[_id][i]),
         '</g>'));
-        
+    }
      return chestSVG;
   }
   function renderCapeFront(uint256 _id) internal view returns (string memory) {
     string memory capeFrontSVG = "";
 
+    for (uint8 i = 0; i < capeFrontById[_id].length; i++) {
     capeFrontSVG = string(abi.encodePacked(
       capeFrontSVG,
         '<g>',
-        capeFront.renderTokenById(capeFrontById[_id]),
+        capeFront.renderTokenById(capeFrontById[_id][i]),
         '</g>'));
-    
+    }
 
     return capeFrontSVG;
   }
   function renderBoots(uint256 _id) internal view returns (string memory) {
     string memory bootsSVG = "";
 
+    for (uint8 i = 0; i < bootsById[_id].length; i++) {
     bootsSVG = string(abi.encodePacked(
       bootsSVG,
         '<g>',
-        boots.renderTokenById(bootsById[_id]),
+        boots.renderTokenById(bootsById[_id][i]),
         '</g>'));
-    
+    }
 
     return bootsSVG;
   }
   function renderWaist(uint256 _id) internal view returns (string memory) {
     string memory waistSVG = "";
 
+    for (uint8 i = 0; i < waistById[_id].length; i++) {
     waistSVG = string(abi.encodePacked(
       waistSVG,
         '<g>',
-        waist.renderTokenById(waistById[_id]),
+        waist.renderTokenById(waistById[_id][i]),
         '</g>'));
-    
+    }
 
     return waistSVG;
   }
   function renderHeadmail(uint256 _id) internal view returns (string memory) {
     string memory headmailSVG = "";
 
+    for (uint8 i = 0; i < headmailById[_id].length; i++) {
     headmailSVG = string(abi.encodePacked(
       headmailSVG,
         '<g>',
-        headmail.renderTokenById(headmailById[_id]),
+        headmail.renderTokenById(headmailById[_id][i]),
         '</g>'));
-    
+    }
 
     return headmailSVG;
   }
   function renderHelmet(uint256 _id) internal view returns (string memory) {
     string memory helmetSVG = "";
 
+    for (uint8 i = 0; i < helmetById[_id].length; i++) {
     helmetSVG = string(abi.encodePacked(
       helmetSVG,
         '<g>',
-        helmet.renderTokenById(helmetById[_id]),
+        helmet.renderTokenById(helmetById[_id][i]),
         '</g>'));
-    
+    }
 
     return helmetSVG;
   }
   function renderETHLogo(uint256 _id) internal view returns (string memory) {
     string memory ethlogoSVG = "";
 
+    for (uint8 i = 0; i < ethlogoById[_id].length; i++) {
     ethlogoSVG = string(abi.encodePacked(
       ethlogoSVG,
         '<g>',
-        ethlogo.renderTokenById(ethlogoById[_id]),
+        ethlogo.renderTokenById(ethlogoById[_id][i]),
         '</g>'));
-    
+    }
 
     return ethlogoSVG;
   }
   function renderSword(uint256 _id) internal view returns (string memory) {
     string memory swordSVG = "";
 
+    for (uint8 i = 0; i < swordById[_id].length; i++) {
     swordSVG = string(abi.encodePacked(
       swordSVG,
         '<g>',
-        sword.renderTokenById(swordById[_id]),
+        sword.renderTokenById(swordById[_id][i]),
         '</g>'));
-    
+    }
 
     return swordSVG;
   }
-//   function renderCastle(uint256 _id) internal view returns (string memory) {
-//     string memory castleSVG = "";
-
-//     castleSVG = string(abi.encodePacked(
-//       castleSVG,
-//         '<g>',
-//         castle.renderTokenById(castleById[_id]),
-//         '</g>'));
-    
-
-//     return castleSVG;
-//   }
-
   
   // https://github.com/GNSPS/solidity-bytes-utils/blob/master/contracts/BytesLib.sol#L374
   function toUint256(bytes memory _bytes) internal pure returns (uint256) {
