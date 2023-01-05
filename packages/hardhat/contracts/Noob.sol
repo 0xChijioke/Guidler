@@ -6,7 +6,8 @@ import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import 'base64-sol/base64.sol';
 import './HexStrings.sol';
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
+
 
 
 abstract contract CapeContract {
@@ -70,6 +71,7 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
   ETHLogoContract ethlogo;
   SwordContract sword;
 //   CastleContract castle;
+
   mapping(uint256 => uint256[]) capeById;
   mapping(uint256 => uint256[]) armsById;
   mapping(uint256 => uint256[]) chestById;
@@ -201,19 +203,20 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
     return render;
   }
 
-  function renderCape(uint256 _id) internal view returns (string memory) {
+   function renderCape(uint256 _id) internal view returns (string memory) {
     string memory capeSVG = "";
 
-    // for (uint8 i = 0; i < capeById[_id].length; i++) {
+    for (uint8 i = 0; i < capeById[_id].length; i++) {
 
       capeSVG = string(abi.encodePacked(
         capeSVG,
           '<g>',
-          cape.renderTokenById(capeById[_id][1]),
+          cape.renderTokenById(capeById[_id][i]),
           '</g>'
           ));
     
-    // }
+      }
+    
     return capeSVG;
   }
   function renderArms(uint256 _id) internal view returns (string memory) {
@@ -360,15 +363,8 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
       bytes calldata noobIdData) external override returns (bytes4) {
 
       uint256 noobId = toUint256(noobIdData);
-    //   require(ownerOf(noobId) == from, "you can only add smiles to your own happi.");
-    //   require(capeById[noobId].length < 256, "Excess joy! Cant take anymore.");
-
-      
-
-      bytes32 randish = keccak256(abi.encodePacked( blockhash(block.number-1), from, address(this), capeTokenId, noobIdData  ));
-      x[capeTokenId] = uint8(randish[0]);
-      y[capeTokenId] = uint8(randish[1]);
-      blockAdded[capeTokenId] = block.number;
+      require(ownerOf(noobId) == from, "you can only add smiles to your own happi.");
+      require(capeById[noobId].length < 256, "Excess joy! Cant take anymore.");
 
       return this.onERC721Received.selector;
     }
