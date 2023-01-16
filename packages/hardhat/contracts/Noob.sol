@@ -1,12 +1,12 @@
-pragma solidity >=0.8.0 <0.9.0;
 //SPDX-License-Identifier: MIT
+pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import 'base64-sol/base64.sol';
-import './HexStrings.sol';
 import "hardhat/console.sol";
+import './HexStrings.sol';
 
 
 
@@ -111,7 +111,6 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
 
   function mintItem() public returns (uint256) {
       _tokenIds.increment();
-
       uint256 id = _tokenIds.current();
       _mint(msg.sender, id);
 
@@ -338,6 +337,7 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
     return swordSVG;
   }
   
+ 
   // https://github.com/GNSPS/solidity-bytes-utils/blob/master/contracts/BytesLib.sol#L374
   function toUint256(bytes memory _bytes) internal pure returns (uint256) {
         require(_bytes.length >= 32, "toUint256_outOfBounds");
@@ -350,21 +350,18 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
         return tempUint;
   }
 
-  mapping(uint256 => uint8) x;
-  mapping(uint256 => uint8) y;
-
-  mapping(uint256 => uint256) blockAdded;
-
   // to receive ERC721 tokens
   function onERC721Received(
       address operator,
       address from,
-      uint256 capeTokenId,
+      uint256 nftTokenId,
       bytes calldata noobIdData) external override returns (bytes4) {
 
       uint256 noobId = toUint256(noobIdData);
-      require(ownerOf(noobId) == from, "you can only add smiles to your own happi.");
+      require(ownerOf(noobId) == from, "you can only add assets to your Guidler.");
       require(capeById[noobId].length < 256, "Excess joy! Cant take anymore.");
+
+      capeById[noobId].push(nftTokenId);
 
       return this.onERC721Received.selector;
     }

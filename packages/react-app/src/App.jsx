@@ -184,44 +184,67 @@ function App(props) {
 
   // keep track of a variable from the contract in the local React state:
   const capeBalance = useContractReader(readContracts, "Cape", "balanceOf", [address]);
-  console.log("🤗 Cape balance:", capeBalance);
+  // console.log("🤗 Cape balance:", capeBalance);
   const armsBalance = useContractReader(readContracts, "Arms", "balanceOf", [address]);
-  console.log("🤗 Arms balance:", armsBalance);
+  // console.log("🤗 Arms balance:", armsBalance);
   const chestBalance = useContractReader(readContracts, "Chest", "balanceOf", [address]);
-  console.log("🤗 Chest balance:", chestBalance);
+  // console.log("🤗 Chest balance:", chestBalance);
   const capeFrontBalance = useContractReader(readContracts, "CapeFront", "balanceOf", [address]);
-  console.log("🤗 CapeFront balance:", capeFrontBalance);
+  // console.log("🤗 CapeFront balance:", capeFrontBalance);
   const bootsBalance = useContractReader(readContracts, "Boots", "balanceOf", [address]);
-  console.log("🤗 Boots balance:", bootsBalance);
+  // console.log("🤗 Boots balance:", bootsBalance);
   const waistBalance = useContractReader(readContracts, "Waist", "balanceOf", [address]);
-  console.log("🤗 Waist balance:", waistBalance);
-  const headmailBalance = useContractReader(readContracts, "Headmail", "balanceOf", [address]);
-  console.log("🤗 Headmail balance:", headmailBalance);
+  // console.log("🤗 Waist balance:", waistBalance);
+  const headmailBalance = useContractReader(readContracts, "HeadMail", "balanceOf", [address]);
+  // console.log("🤗 Headmail balance:", headmailBalance);
   const helmetBalance = useContractReader(readContracts, "Helmet", "balanceOf", [address]);
-  console.log("🤗 Helmet balance:", helmetBalance);
+  // console.log("🤗 Helmet balance:", helmetBalance);
   const ethlogoBalance = useContractReader(readContracts, "ETHLogo", "balanceOf", [address]);
   console.log("🤗 ETHLogo balance:", ethlogoBalance);
   const swordBalance = useContractReader(readContracts, "Sword", "balanceOf", [address]);
   console.log("🤗 Sword balance:", swordBalance);
 
   const guidlerBalance = useContractReader(readContracts, "Noob", "balanceOf", [address]);
-  console.log("🤗 Guidler balance:", guidlerBalance);
+  // console.log("🤗 Guidler balance:", guidlerBalance);
 
   // 📟 Listen for broadcast events
   const capeTransferEvents = useEventListener(readContracts, "Cape", "Transfer", localProvider, 1);
-  console.log("📟 Cape Transfer events:", capeTransferEvents);
+  // console.log("📟 Cape Transfer events:", capeTransferEvents);
 
   const guidlerTransferEvents = useEventListener(readContracts, "Noob", "Transfer", localProvider, 1);
-  console.log("📟 Guidler Transfer events:", guidlerTransferEvents);
+  // console.log("📟 Guidler Transfer events:", guidlerTransferEvents);
 
   //
   // 🧠 This effect will update yourCollectibles by polling when your balance changes
   //
   const yourCapeBalance = capeBalance && capeBalance.toNumber && capeBalance.toNumber();
-  const [yourCape, setYourCape] = useState();
+  const yourArmsBalance = armsBalance && armsBalance.toNumber && armsBalance.toNumber();
+  const yourChestBalance = chestBalance && chestBalance.toNumber && chestBalance.toNumber();
+  const yourCapeFrontBalance = capeFrontBalance && capeFrontBalance.toNumber && capeFrontBalance.toNumber();
+  const yourBootsBalance = bootsBalance && bootsBalance.toNumber && bootsBalance.toNumber();
+  const yourWaistBalance = waistBalance && waistBalance.toNumber && waistBalance.toNumber();
+  const yourHeadmailBalance = headmailBalance && headmailBalance.toNumber && headmailBalance.toNumber();
+  const yourHelmetBalance = helmetBalance && helmetBalance.toNumber && helmetBalance.toNumber();
+  const yourETHLogoBalance = ethlogoBalance && ethlogoBalance.toNumber && ethlogoBalance.toNumber();
+  const yourSwordBalance = swordBalance && swordBalance.toNumber && swordBalance.toNumber();
 
   const yourGuidlerBalance = guidlerBalance && guidlerBalance.toNumber && guidlerBalance.toNumber();
+
+
   const [yourGuidler, setYourGuidler] = useState();
+
+  const [yourCape, setYourCape] = useState();
+  const [yourArms, setYourArms] = useState();
+  const [yourChest, setYourChest] = useState();
+  const [yourCapeFront, setYourCapeFront] = useState();
+  const [yourBoots, setYourBoots] = useState();
+  const [yourWaist, setYourWaist] = useState();
+  const [yourHeadmail, setYourHeadmail] = useState();
+  const [yourHelmet, setYourHelmet] = useState();
+  const [yourETHLogo, setYourETHLogo] = useState();
+  const [yourSword, setYourSword] = useState();
+  
+
 
   async function updateGuidler() {
     const guidlerUpdate = [];
@@ -233,7 +256,7 @@ function App(props) {
         console.log(readContracts.Noob.tokenURI(tokenId));
         const tokenURI = await readContracts.Noob.tokenURI(tokenId);
         console.log("tokenURI", tokenURI);
-        const jsonManifestString = atob(tokenURI.substring(29));
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
         console.log("jsonManifestString", jsonManifestString);
 
         try {
@@ -253,37 +276,150 @@ function App(props) {
   useEffect(() => {
     const updateYourCollectibles = async () => {
       const capeUpdate = [];
-      for (let tokenIndex = 0; tokenIndex < yourCapeBalance; tokenIndex++) {
+
         try {
-          console.log("Getting token index", tokenIndex);
-          const tokenId = await readContracts.Cape.tokenOfOwnerByIndex(address, tokenIndex);
-          console.log("tokenId", tokenId);
-          const tokenURI = await readContracts.Cape.tokenURI(tokenId);
-          console.log("tokenURI", tokenURI);
-          const jsonManifestString = atob(tokenURI.substring(29));
-          console.log("jsonManifestString", jsonManifestString);
-          /*
-          const ipfsHash = tokenURI.replace("https://ipfs.io/ipfs/", "");
-          console.log("ipfsHash", ipfsHash);
-          const jsonManifestBuffer = await getFromIPFS(ipfsHash);
-        */
-          try {
-            const jsonManifest = JSON.parse(jsonManifestString);
-            console.log("jsonManifest", jsonManifest);
-            capeUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
-          } catch (e) {
-            console.log(e);
+          let tokenIndex = 0;
+          if(yourCapeBalance > 0){
+            const capeTokenId = await readContracts.Cape.tokenOfOwnerByIndex(address, tokenIndex);
+            const capeTokenURI = await readContracts.Cape.tokenURI(capeTokenId);
+            const jsonManifestString = Buffer.from(capeTokenURI.substring(29), 'Base64');
+            try {
+              const jsonManifest = JSON.parse(jsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: capeTokenId, uri: capeTokenURI, owner: address, ...jsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
           }
+           if (armsBalance > 0){
+            const armsTokenId = await readContracts.Arms.tokenOfOwnerByIndex(address, tokenIndex);
+            const armsTokenURI = await readContracts.Arms.tokenURI(armsTokenId);
+            const armsJsonManifestString = Buffer.from(armsTokenURI.substring(29), 'Base64');
+            try {
+              const armsJsonManifest = JSON.parse(armsJsonManifestString);
+              console.log("jsonManifest", armsJsonManifest);
+              capeUpdate.push({ id: armsTokenId, uri: armsTokenURI, owner: address, ...armsJsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(chestBalance > 0){
+            const chestTokenId = await readContracts.Chest.tokenOfOwnerByIndex(address, tokenIndex);
+            const chestTokenURI = await readContracts.Chest.tokenURI(chestTokenId);
+            const chestJsonManifestString = Buffer.from(chestTokenURI.substring(29), 'Base64');
+            try {
+              const chestJsonManifest = JSON.parse(chestJsonManifestString);
+              console.log("jsonManifest", chestJsonManifest);
+              capeUpdate.push({ id: chestTokenId, uri: chestTokenURI, owner: address, ...chestJsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(capeFrontBalance > 0){
+            const capeFrontTokenId = await readContracts.CapeFront.tokenOfOwnerByIndex(address, tokenIndex);
+            const capeFrontTokenURI = await readContracts.CapeFront.tokenURI(capeFrontTokenId);
+            const capeFJsonManifestString = Buffer.from(capeFrontTokenURI.substring(29), 'Base64');
+            try {
+              const capeFJsonManifest = JSON.parse(capeFJsonManifestString);
+              console.log("jsonManifest", capeFJsonManifest);
+              capeUpdate.push({ id: capeFrontTokenId, uri: capeFrontTokenURI, owner: address, ...capeFJsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(bootsBalance > 0){
+            const bootsTokenId = await readContracts.Boots.tokenOfOwnerByIndex(address, tokenIndex);
+            const bootsTokenURI = await readContracts.Boots.tokenURI(bootsTokenId);
+            const bootsJsonManifestString = Buffer.from(bootsTokenURI.substring(29), 'Base64');
+            try {
+              const bootsJsonManifest = JSON.parse(bootsJsonManifestString);
+              console.log("jsonManifest", bootsJsonManifest);
+              capeUpdate.push({ id: bootsTokenId, uri: bootsTokenURI, owner: address, ...bootsJsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(waistBalance > 0){
+            const waistTokenId = await readContracts.Waist.tokenOfOwnerByIndex(address, tokenIndex);
+            const waistTokenURI = await readContracts.Waist.tokenURI(waistTokenId);
+            const waistJsonManifestString = Buffer.from(waistTokenURI.substring(29), 'Base64');
+            try {
+              const waistJsonManifest = JSON.parse(waistJsonManifestString);
+              console.log("jsonManifest", waistJsonManifest);
+              capeUpdate.push({ id: waistTokenId, uri: waistTokenURI, owner: address, ...waistJsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(headmailBalance > 0){
+            const headmailTokenId = await readContracts.Headmail.tokenOfOwnerByIndex(address, tokenIndex);
+            const headmailTokenURI = await readContracts.Headmail.tokenURI(headmailTokenId);
+            const headmailJsonManifestString = Buffer.from(headmailTokenURI.substring(29), 'Base64');
+            try {
+              const headmailJsonManifest = JSON.parse(headmailJsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: headmailTokenId, uri: headmailTokenURI, owner: address, ...headmailJsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(helmetBalance > 0){
+            const helmetTokenId = await readContracts.Helmet.tokenOfOwnerByIndex(address, tokenIndex);
+            const helmetTokenURI = await readContracts.Helmet.tokenURI(helmetTokenId);
+            const helmetJsonManifestString = Buffer.from(helmetTokenURI.substring(29), 'Base64');
+            try {
+              const helmetJsonManifest = JSON.parse(helmetJsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: helmetTokenId, uri: helmetTokenURI, owner: address, ...helmetJsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(ethlogoBalance > 0){
+            const ethlogoTokenId = await readContracts.ETHLogo.tokenOfOwnerByIndex(address, tokenIndex);
+            const ethlogoTokenURI = await readContracts.ETHLogo.tokenURI(ethlogoTokenId);
+            const jsonManifestString = Buffer.from(ethlogoTokenURI.substring(29), 'Base64');
+            try {
+              const jsonManifest = JSON.parse(jsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: ethlogoTokenId, uri: ethlogoTokenURI, owner: address, ...jsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(swordBalance > 0) {
+            const swordTokenId = await readContracts.Sword.tokenOfOwnerByIndex(address, tokenIndex);
+            const swordTokenURI = await readContracts.Sword.tokenURI(swordTokenId);
+            const jsonManifestString = Buffer.from(swordTokenURI.substring(29), 'Base64');
+            try {
+              const jsonManifest = JSON.parse(jsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: swordTokenId, uri: swordTokenURI, owner: address, ...jsonManifest });
+              console.log(capeUpdate);
+            } catch (e) {
+              console.log(e);
+            }
+
+          } 
         } catch (e) {
           console.log(e);
         }
-      }
-      setYourCape(capeUpdate.reverse());
-      updateGuidler();
-    };
-    updateYourCollectibles();
-  }, [address, yourCapeBalance, yourGuidlerBalance]);
-
+    
+        setYourCape(capeUpdate.reverse());
+        updateGuidler();
+      };
+      updateYourCollectibles();
+    }, [address, yourCapeBalance, yourGuidlerBalance]);
+    
+    console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee", yourCape);
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
@@ -404,16 +540,7 @@ function App(props) {
 
       <Stack direction={"row"} align={"center"} justify={"center"} spacing={77}>
         <Link to={"/"}>Guilder</Link>
-        <Link to={"/cape"}>Cape</Link>
-        <Link to={"/arms"}>Arms</Link>
-        <Link to={"/chest"}>Chest</Link>
-        <Link to={"/capefront"}>CapeFront</Link>
-        <Link to={"/boots"}>Boots</Link>
-        <Link to={"/waist"}>Waist</Link>
-        <Link to={"/headmail"}>Headmail</Link>
-        <Link to={"/helmet"}>Helmet</Link>
-        <Link to={"/ethlogo"}>ETHLogo</Link>
-        <Link to={"/sword"}>Sword</Link>
+        <Link to={"/compose"}>Compose</Link>
       </Stack>
 
       <Switch>
@@ -425,8 +552,8 @@ function App(props) {
            
 
           <Contract
-            name="Smile"
-            customContract={writeContracts && writeContracts.Loogies}
+            name="Cape"
+            customContract={writeContracts && writeContracts.Cape}
             signer={userSigner}
             provider={localProvider}
             address={address}
@@ -434,9 +561,9 @@ function App(props) {
             contractConfig={contractConfig}
           />
         </Route>
-        <Route exact path="/loogietank">
+        <Route exact path="/guidler">
           <Contract
-            name="LoogieTank"
+            name="Guidler"
             signer={userSigner}
             provider={localProvider}
             address={address}
@@ -533,12 +660,21 @@ function App(props) {
         </Route>
 
 
-        <Route exact path="/cape">
+        <Route exact path="/compose">
         <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
             <Button
               onClick={async () => {
                 setPending(true);
                 await tx(writeContracts.Cape.mintItem());
+                await tx(writeContracts.Arms.mintItem());
+                await tx(writeContracts.Chest.mintItem());
+                await tx(writeContracts.CapeFront.mintItem());
+                await tx(writeContracts.Boots.mintItem());
+                await tx(writeContracts.Waist.mintItem());
+                await tx(writeContracts.HeadMail.mintItem());
+                await tx(writeContracts.Helmet.mintItem());
+                await tx(writeContracts.ETHLogo.mintItem());
+                await tx(writeContracts.Sword.mintItem());
                 setPending(false);
               }}
               isLoading={pending}

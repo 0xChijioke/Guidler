@@ -1,15 +1,13 @@
-pragma solidity >=0.8.0 <0.9.0;
 //SPDX-License-Identifier: MIT
+pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import 'base64-sol/base64.sol';
-
-
 import './HexStrings.sol';
-// GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
+
 
 contract Cape is ERC721Enumerable, Ownable {
 
@@ -20,16 +18,13 @@ contract Cape is ERC721Enumerable, Ownable {
 
   constructor() ERC721("Cape", "CAPE") {}
 
-  // uint256 constant public price = 1; // 0.005 eth
-  // uint256 mintDeadline = block.timestamp + 1 weeks;
 
   function mintItem()
       public
       payable
       returns (uint256)
   {
-      //require( block.timestamp < mintDeadline, "DONE MINTING");
-      //require(msg.value >= price, "Not enough ETH");
+      
       _tokenIds.increment();
 
       uint256 id = _tokenIds.current();
@@ -41,7 +36,7 @@ contract Cape is ERC721Enumerable, Ownable {
   function tokenURI(uint256 id) public view override returns (string memory) {
       require(_exists(id), "not exist");
       string memory name = string(abi.encodePacked('#', id.toString(), ' Cape'));
-      string memory description = string(abi.encodePacked('The cape for a guidler conquering NFT challenges #'));
+      string memory description = string(abi.encodePacked('The cape for a guidler conquering Speedrunethereum challenges.'));
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
 
       return
@@ -99,25 +94,4 @@ contract Cape is ERC721Enumerable, Ownable {
     return render;
   }
 
-  function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
-      if (_i == 0) {
-          return "0";
-      }
-      uint j = _i;
-      uint len;
-      while (j != 0) {
-          len++;
-          j /= 10;
-      }
-      bytes memory bstr = new bytes(len);
-      uint k = len;
-      while (_i != 0) {
-          k = k-1;
-          uint8 temp = (48 + uint8(_i - _i / 10 * 10));
-          bytes1 b1 = bytes1(temp);
-          bstr[k] = b1;
-          _i /= 10;
-      }
-      return string(bstr);
-  }
 }
