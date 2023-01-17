@@ -53,7 +53,7 @@ contract Helmet is ERC721Enumerable, Ownable {
                               description,
                               '", "external_url":"https://burnyboys.com/token/',
                               id.toString(),
-                              '"}], "owner":"',
+                              '", "owner":"',
                               (uint160(ownerOf(id))).toHexString(20),
                               '", "image": "',
                               'data:image/svg+xml;base64,',

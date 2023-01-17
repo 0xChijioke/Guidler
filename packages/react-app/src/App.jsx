@@ -4,6 +4,8 @@ import {
   Center,
   Container,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   HStack,
   Image,
@@ -283,6 +285,7 @@ function App(props) {
             const capeTokenId = await readContracts.Cape.tokenOfOwnerByIndex(address, tokenIndex);
             const capeTokenURI = await readContracts.Cape.tokenURI(capeTokenId);
             const jsonManifestString = Buffer.from(capeTokenURI.substring(29), 'Base64');
+            console.log(jsonManifestString)
             try {
               const jsonManifest = JSON.parse(jsonManifestString);
               console.log("jsonManifest", jsonManifest);
@@ -291,98 +294,99 @@ function App(props) {
               console.log(e);
             }
           }
-           if (armsBalance > 0){
+           if (yourArmsBalance > tokenIndex){
             const armsTokenId = await readContracts.Arms.tokenOfOwnerByIndex(address, tokenIndex);
             const armsTokenURI = await readContracts.Arms.tokenURI(armsTokenId);
-            const armsJsonManifestString = Buffer.from(armsTokenURI.substring(29), 'Base64');
+            const jsonManifestString = Buffer.from(armsTokenURI.substring(29), 'Base64');
+            console.log(jsonManifestString)
             try {
-              const armsJsonManifest = JSON.parse(armsJsonManifestString);
-              console.log("jsonManifest", armsJsonManifest);
-              capeUpdate.push({ id: armsTokenId, uri: armsTokenURI, owner: address, ...armsJsonManifest });
+              const jsonManifest = JSON.parse(jsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: armsTokenId, uri: armsTokenURI, owner: address, ...jsonManifest });
             } catch (e) {
               console.log(e);
             }
             
           }
-          if(chestBalance > 0){
+          if(yourChestBalance > tokenIndex){
             const chestTokenId = await readContracts.Chest.tokenOfOwnerByIndex(address, tokenIndex);
             const chestTokenURI = await readContracts.Chest.tokenURI(chestTokenId);
-            const chestJsonManifestString = Buffer.from(chestTokenURI.substring(29), 'Base64');
+            const jsonManifestString = Buffer.from(chestTokenURI.substring(29), 'Base64');
             try {
-              const chestJsonManifest = JSON.parse(chestJsonManifestString);
-              console.log("jsonManifest", chestJsonManifest);
-              capeUpdate.push({ id: chestTokenId, uri: chestTokenURI, owner: address, ...chestJsonManifest });
+              const jsonManifest = JSON.parse(jsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: chestTokenId, uri: chestTokenURI, owner: address, ...jsonManifest });
             } catch (e) {
               console.log(e);
             }
             
           }
-          if(capeFrontBalance > 0){
+          if(yourCapeFrontBalance > tokenIndex){
             const capeFrontTokenId = await readContracts.CapeFront.tokenOfOwnerByIndex(address, tokenIndex);
             const capeFrontTokenURI = await readContracts.CapeFront.tokenURI(capeFrontTokenId);
-            const capeFJsonManifestString = Buffer.from(capeFrontTokenURI.substring(29), 'Base64');
+            const jsonManifestString = Buffer.from(capeFrontTokenURI.substring(29), 'Base64');
             try {
-              const capeFJsonManifest = JSON.parse(capeFJsonManifestString);
-              console.log("jsonManifest", capeFJsonManifest);
-              capeUpdate.push({ id: capeFrontTokenId, uri: capeFrontTokenURI, owner: address, ...capeFJsonManifest });
+              const jsonManifest = JSON.parse(jsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: capeFrontTokenId, uri: capeFrontTokenURI, owner: address, ...jsonManifest });
             } catch (e) {
               console.log(e);
             }
             
           }
-          if(bootsBalance > 0){
+          if(yourBootsBalance > tokenIndex){
             const bootsTokenId = await readContracts.Boots.tokenOfOwnerByIndex(address, tokenIndex);
             const bootsTokenURI = await readContracts.Boots.tokenURI(bootsTokenId);
-            const bootsJsonManifestString = Buffer.from(bootsTokenURI.substring(29), 'Base64');
+            const jsonManifestString = Buffer.from(bootsTokenURI.substring(29), 'Base64');
             try {
-              const bootsJsonManifest = JSON.parse(bootsJsonManifestString);
-              console.log("jsonManifest", bootsJsonManifest);
-              capeUpdate.push({ id: bootsTokenId, uri: bootsTokenURI, owner: address, ...bootsJsonManifest });
+              const jsonManifest = JSON.parse(jsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: bootsTokenId, uri: bootsTokenURI, owner: address, ...jsonManifest });
             } catch (e) {
               console.log(e);
             }
             
           }
-          if(waistBalance > 0){
+          if(yourWaistBalance > tokenIndex){
             const waistTokenId = await readContracts.Waist.tokenOfOwnerByIndex(address, tokenIndex);
             const waistTokenURI = await readContracts.Waist.tokenURI(waistTokenId);
-            const waistJsonManifestString = Buffer.from(waistTokenURI.substring(29), 'Base64');
+            const jsonManifestString = Buffer.from(waistTokenURI.substring(29), 'Base64');
             try {
-              const waistJsonManifest = JSON.parse(waistJsonManifestString);
-              console.log("jsonManifest", waistJsonManifest);
-              capeUpdate.push({ id: waistTokenId, uri: waistTokenURI, owner: address, ...waistJsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(headmailBalance > 0){
-            const headmailTokenId = await readContracts.Headmail.tokenOfOwnerByIndex(address, tokenIndex);
-            const headmailTokenURI = await readContracts.Headmail.tokenURI(headmailTokenId);
-            const headmailJsonManifestString = Buffer.from(headmailTokenURI.substring(29), 'Base64');
-            try {
-              const headmailJsonManifest = JSON.parse(headmailJsonManifestString);
+              const jsonManifest = JSON.parse(jsonManifestString);
               console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: headmailTokenId, uri: headmailTokenURI, owner: address, ...headmailJsonManifest });
+              capeUpdate.push({ id: waistTokenId, uri: waistTokenURI, owner: address, ...jsonManifest });
             } catch (e) {
               console.log(e);
             }
             
           }
-          if(helmetBalance > 0){
+          if(yourHeadmailBalance > tokenIndex){
+            const headmailTokenId = await readContracts.HeadMail.tokenOfOwnerByIndex(address, tokenIndex);
+            const headmailTokenURI = await readContracts.HeadMail.tokenURI(headmailTokenId);
+            const jsonManifestString = Buffer.from(headmailTokenURI.substring(29), 'Base64');
+            try {
+              const jsonManifest = JSON.parse(jsonManifestString);
+              console.log("jsonManifest", jsonManifest);
+              capeUpdate.push({ id: headmailTokenId, uri: headmailTokenURI, owner: address, ...jsonManifest });
+            } catch (e) {
+              console.log(e);
+            }
+            
+          }
+          if(yourHelmetBalance > tokenIndex){
             const helmetTokenId = await readContracts.Helmet.tokenOfOwnerByIndex(address, tokenIndex);
             const helmetTokenURI = await readContracts.Helmet.tokenURI(helmetTokenId);
-            const helmetJsonManifestString = Buffer.from(helmetTokenURI.substring(29), 'Base64');
+            const jsonManifestString = Buffer.from(helmetTokenURI.substring(29), 'Base64');
             try {
-              const helmetJsonManifest = JSON.parse(helmetJsonManifestString);
+              const jsonManifest = JSON.parse(jsonManifestString);
               console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: helmetTokenId, uri: helmetTokenURI, owner: address, ...helmetJsonManifest });
+              capeUpdate.push({ id: helmetTokenId, uri: helmetTokenURI, owner: address, ...jsonManifest });
             } catch (e) {
               console.log(e);
             }
             
           }
-          if(ethlogoBalance > 0){
+          if(yourETHLogoBalance > tokenIndex){
             const ethlogoTokenId = await readContracts.ETHLogo.tokenOfOwnerByIndex(address, tokenIndex);
             const ethlogoTokenURI = await readContracts.ETHLogo.tokenURI(ethlogoTokenId);
             const jsonManifestString = Buffer.from(ethlogoTokenURI.substring(29), 'Base64');
@@ -395,7 +399,7 @@ function App(props) {
             }
             
           }
-          if(swordBalance > 0) {
+          if(yourSwordBalance > tokenIndex) {
             const swordTokenId = await readContracts.Sword.tokenOfOwnerByIndex(address, tokenIndex);
             const swordTokenURI = await readContracts.Sword.tokenURI(swordTokenId);
             const jsonManifestString = Buffer.from(swordTokenURI.substring(29), 'Base64');
@@ -419,7 +423,7 @@ function App(props) {
       updateYourCollectibles();
     }, [address, yourCapeBalance, yourGuidlerBalance]);
     
-    console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee", yourCape);
+
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
@@ -689,11 +693,9 @@ function App(props) {
                 yourCape.map(item => {
                   const id = item.id.toNumber();
 
-                  console.log("IMAGE", item.image);
-
                   return (
                     <ListItem key={id + "_" + item.uri + "_" + item.owner}>
-                      <Flex direction={"column"} align={"center"}>
+                      <Flex direction={"row"} align={"center"}>
                         <Heading>
                           <div>
                             <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
@@ -713,7 +715,7 @@ function App(props) {
                           />
                         </Flex>
                         <Flex direction={"column"} alignItems={"center"} w={"fit-content"}>
-                          <AddressInput
+                          {/* <AddressInput
                             ensProvider={mainnetProvider}
                             placeholder="transfer to address"
                             value={transferToAddresses[id]}
@@ -731,7 +733,7 @@ function App(props) {
                             }}
                           >
                             Transfer
-                          </Button>
+                          </Button> */}
                           <br />
                           <Flex direction={"row"} justify={"center"} align={"center"}>
                             <Text pr={2}>Transfer to Guidler:</Text>

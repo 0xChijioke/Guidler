@@ -43,7 +43,7 @@ contract Arms is ERC721Enumerable, Ownable {
           string(
               abi.encodePacked(
                 'data:application/json;base64,',
-                Base64.encode(
+                  Base64.encode(
                     bytes(
                           abi.encodePacked(
                               '{"name":"',
@@ -52,7 +52,7 @@ contract Arms is ERC721Enumerable, Ownable {
                               description,
                               '", "external_url":"https://burnyboys.com/token/',
                               id.toString(),
-                              '"}], "owner":"',
+                              '", "owner":"',
                               (uint160(ownerOf(id))).toHexString(20),
                               '", "image": "',
                               'data:image/svg+xml;base64,',
@@ -68,8 +68,8 @@ contract Arms is ERC721Enumerable, Ownable {
   function generateSVGofTokenById(uint256 id) internal view returns (string memory) {
 
     string memory svg = string(abi.encodePacked(
-      '<svg width="100%" height="100%" viewBox="0 0 2048 1536" version="1.1" xmlns="http://www.w3.org/2000/svg'
-      '" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/'
+      '<svg width="100%" height="100%" viewBox="0 0 2048 1536" version="1.1" xmlns="http://www.w3.org/2000/svg',
+      '" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/',
       '" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">',
         renderTokenById(id),
       '</svg>'
