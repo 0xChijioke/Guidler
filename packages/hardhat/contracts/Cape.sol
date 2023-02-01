@@ -36,7 +36,7 @@ contract Cape is ERC721Enumerable, Ownable {
   function tokenURI(uint256 id) public view override returns (string memory) {
       require(_exists(id), "not exist");
       string memory name = string(abi.encodePacked('#', id.toString(), ' Cape'));
-      string memory description = string(abi.encodePacked('The cape for a guidler conquering Speedrunethereum challenges.'));
+      string memory description = string(abi.encodePacked('For guidler conquering SRE challenges.'));
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
 
       return

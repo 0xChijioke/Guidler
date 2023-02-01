@@ -53,12 +53,17 @@ abstract contract SwordContract {
 
 contract Noob is ERC721Enumerable, IERC721Receiver {
 
+  error UNRECOGNIZED_TOKEN();
+
   using Strings for uint256;
   using Strings for uint8;
   using HexStrings for uint160;
   using Counters for Counters.Counter;
 
   Counters.Counter private _tokenIds;
+
+  
+ uint256 private _totalSupply;
 
   CapeContract cape;
   ArmsContract arms;
@@ -82,7 +87,6 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
   mapping(uint256 => uint256[]) helmetById;
   mapping(uint256 => uint256[]) ethlogoById;
   mapping(uint256 => uint256[]) swordById;
-//   mapping(uint256 => uint256) castleById;
 
   constructor(
     address _cape, 
@@ -106,11 +110,19 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
     helmet = HelmetContract(_helmet);
     ethlogo = ETHLogoContract(_ethlogo);
     sword = SwordContract(_sword);
-    // castle = CastleContract(_castle);
+
+    _totalSupply = 0;
   }
 
+  function totalSupply() public view override returns (uint256) {
+        return _totalSupply;
+    }
+
   function mintItem() public returns (uint256) {
+
+
       _tokenIds.increment();
+      _totalSupply++;
       uint256 id = _tokenIds.current();
       _mint(msg.sender, id);
 
@@ -195,7 +207,6 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
         renderHelmet(id),
         renderETHLogo(id),
         renderSword(id),
-        // renderCastle(id),
        '</g>'
     ));
 
@@ -348,20 +359,63 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
         }
 
         return tempUint;
-  }
+  } 
 
-  // to receive ERC721 tokens
+  // to receive  ERC721 tokens
   function onERC721Received(
       address operator,
       address from,
       uint256 nftTokenId,
-      bytes calldata noobIdData) external override returns (bytes4) {
+      bytes calldata _data) external override returns (bytes4) {
+        
+      uint256 tokenId = toUint256(_data);
+      
+      require(ownerOf(tokenId) == operator, "you can only add collectables to your Guidler.");
 
-      uint256 noobId = toUint256(noobIdData);
-      require(ownerOf(noobId) == from, "you can only add assets to your Guidler.");
-      require(capeById[noobId].length < 256, "Excess joy! Cant take anymore.");
+      if (msg.sender == address(cape)) {
 
-      capeById[noobId].push(nftTokenId);
+        capeById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(arms)){
+
+        armsById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(chest)){
+
+        chestById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(capeFront)){
+
+        capeFrontById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(boots)){
+
+        bootsById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(waist)){
+
+        waistById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(headmail)){
+
+        headmailById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(helmet)){
+
+        helmetById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(ethlogo)){
+
+        ethlogoById[tokenId].push(nftTokenId);
+
+      } else if (msg.sender == address(sword)){
+
+        swordById[tokenId].push(nftTokenId);
+
+      } else {
+        revert UNRECOGNIZED_TOKEN();
+      }
+
 
       return this.onERC721Received.selector;
     }

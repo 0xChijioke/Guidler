@@ -175,9 +175,9 @@ function App(props) {
   const mainnetContracts = useContractLoader(mainnetProvider, contractConfig);
 
   // call every 1500 seconds.
-  usePoller(() => {
-    updateGuidler();
-  }, 1500000);
+  // usePoller(() => {
+  //   updateGuidler();
+  // }, 1500000);
 
   // Then read your DAI balance like:
   const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [
@@ -186,21 +186,21 @@ function App(props) {
 
   // keep track of a variable from the contract in the local React state:
   const capeBalance = useContractReader(readContracts, "Cape", "balanceOf", [address]);
-  // console.log("🤗 Cape balance:", capeBalance);
+  console.log("🤗 Cape balance:", capeBalance);
   const armsBalance = useContractReader(readContracts, "Arms", "balanceOf", [address]);
-  // console.log("🤗 Arms balance:", armsBalance);
+  console.log("🤗 Arms balance:", armsBalance);
   const chestBalance = useContractReader(readContracts, "Chest", "balanceOf", [address]);
-  // console.log("🤗 Chest balance:", chestBalance);
+  console.log("🤗 Chest balance:", chestBalance);
   const capeFrontBalance = useContractReader(readContracts, "CapeFront", "balanceOf", [address]);
-  // console.log("🤗 CapeFront balance:", capeFrontBalance);
+  console.log("🤗 CapeFront balance:", capeFrontBalance);
   const bootsBalance = useContractReader(readContracts, "Boots", "balanceOf", [address]);
-  // console.log("🤗 Boots balance:", bootsBalance);
+  console.log("🤗 Boots balance:", bootsBalance);
   const waistBalance = useContractReader(readContracts, "Waist", "balanceOf", [address]);
-  // console.log("🤗 Waist balance:", waistBalance);
+  console.log("🤗 Waist balance:", waistBalance);
   const headmailBalance = useContractReader(readContracts, "HeadMail", "balanceOf", [address]);
-  // console.log("🤗 Headmail balance:", headmailBalance);
+  console.log("🤗 Headmail balance:", headmailBalance);
   const helmetBalance = useContractReader(readContracts, "Helmet", "balanceOf", [address]);
-  // console.log("🤗 Helmet balance:", helmetBalance);
+  console.log("🤗 Helmet balance:", helmetBalance);
   const ethlogoBalance = useContractReader(readContracts, "ETHLogo", "balanceOf", [address]);
   console.log("🤗 ETHLogo balance:", ethlogoBalance);
   const swordBalance = useContractReader(readContracts, "Sword", "balanceOf", [address]);
@@ -212,6 +212,8 @@ function App(props) {
   // 📟 Listen for broadcast events
   const capeTransferEvents = useEventListener(readContracts, "Cape", "Transfer", localProvider, 1);
   // console.log("📟 Cape Transfer events:", capeTransferEvents);
+  const waistTransferEvents = useEventListener(readContracts, "Waist", "Transfer", localProvider, 1);
+  console.log("📟 Waist Transfer events:", waistTransferEvents);
 
   const guidlerTransferEvents = useEventListener(readContracts, "Noob", "Transfer", localProvider, 1);
   // console.log("📟 Guidler Transfer events:", guidlerTransferEvents);
@@ -234,22 +236,11 @@ function App(props) {
 
 
   const [yourGuidler, setYourGuidler] = useState();
-
-  const [yourCape, setYourCape] = useState();
-  const [yourArms, setYourArms] = useState();
-  const [yourChest, setYourChest] = useState();
-  const [yourCapeFront, setYourCapeFront] = useState();
-  const [yourBoots, setYourBoots] = useState();
-  const [yourWaist, setYourWaist] = useState();
-  const [yourHeadmail, setYourHeadmail] = useState();
-  const [yourHelmet, setYourHelmet] = useState();
-  const [yourETHLogo, setYourETHLogo] = useState();
-  const [yourSword, setYourSword] = useState();
-  
-
+  const [yourCollectable, setYourCollectable] = useState();
 
   async function updateGuidler() {
     const guidlerUpdate = [];
+
     for (let tokenIndex = 0; tokenIndex < yourGuidlerBalance; tokenIndex++) {
       try {
         console.log("Getting token index", tokenIndex);
@@ -275,154 +266,62 @@ function App(props) {
     setYourGuidler(guidlerUpdate.reverse());
   }
 
-  useEffect(() => {
-    const updateYourCollectibles = async () => {
-      const capeUpdate = [];
-
+  const updateYourCollectables = async () => {
+    const collectableUpdate = [];
+    const contracts = ['Cape', 'Arms', 'Chest', 'CapeFront', 'Boots', 'Waist', 'Headmail'];
+    const balances = [yourCapeBalance, yourArmsBalance, yourChestBalance, yourCapeFrontBalance, yourBootsBalance, yourWaistBalance, yourHeadmailBalance];
+    let tokenIndex = 0;
+  
+    for(let i = 0; i < contracts.length; i++) {
+      if(balances[i] > 0) {
         try {
-          let tokenIndex = 0;
-          if(yourCapeBalance > 0){
-            const capeTokenId = await readContracts.Cape.tokenOfOwnerByIndex(address, tokenIndex);
-            const capeTokenURI = await readContracts.Cape.tokenURI(capeTokenId);
-            const jsonManifestString = Buffer.from(capeTokenURI.substring(29), 'Base64');
-            console.log(jsonManifestString)
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: capeTokenId, uri: capeTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-          }
-           if (yourArmsBalance > tokenIndex){
-            const armsTokenId = await readContracts.Arms.tokenOfOwnerByIndex(address, tokenIndex);
-            const armsTokenURI = await readContracts.Arms.tokenURI(armsTokenId);
-            const jsonManifestString = Buffer.from(armsTokenURI.substring(29), 'Base64');
-            console.log(jsonManifestString)
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: armsTokenId, uri: armsTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(yourChestBalance > tokenIndex){
-            const chestTokenId = await readContracts.Chest.tokenOfOwnerByIndex(address, tokenIndex);
-            const chestTokenURI = await readContracts.Chest.tokenURI(chestTokenId);
-            const jsonManifestString = Buffer.from(chestTokenURI.substring(29), 'Base64');
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: chestTokenId, uri: chestTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(yourCapeFrontBalance > tokenIndex){
-            const capeFrontTokenId = await readContracts.CapeFront.tokenOfOwnerByIndex(address, tokenIndex);
-            const capeFrontTokenURI = await readContracts.CapeFront.tokenURI(capeFrontTokenId);
-            const jsonManifestString = Buffer.from(capeFrontTokenURI.substring(29), 'Base64');
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: capeFrontTokenId, uri: capeFrontTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(yourBootsBalance > tokenIndex){
-            const bootsTokenId = await readContracts.Boots.tokenOfOwnerByIndex(address, tokenIndex);
-            const bootsTokenURI = await readContracts.Boots.tokenURI(bootsTokenId);
-            const jsonManifestString = Buffer.from(bootsTokenURI.substring(29), 'Base64');
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: bootsTokenId, uri: bootsTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(yourWaistBalance > tokenIndex){
-            const waistTokenId = await readContracts.Waist.tokenOfOwnerByIndex(address, tokenIndex);
-            const waistTokenURI = await readContracts.Waist.tokenURI(waistTokenId);
-            const jsonManifestString = Buffer.from(waistTokenURI.substring(29), 'Base64');
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: waistTokenId, uri: waistTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(yourHeadmailBalance > tokenIndex){
-            const headmailTokenId = await readContracts.HeadMail.tokenOfOwnerByIndex(address, tokenIndex);
-            const headmailTokenURI = await readContracts.HeadMail.tokenURI(headmailTokenId);
-            const jsonManifestString = Buffer.from(headmailTokenURI.substring(29), 'Base64');
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: headmailTokenId, uri: headmailTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(yourHelmetBalance > tokenIndex){
-            const helmetTokenId = await readContracts.Helmet.tokenOfOwnerByIndex(address, tokenIndex);
-            const helmetTokenURI = await readContracts.Helmet.tokenURI(helmetTokenId);
-            const jsonManifestString = Buffer.from(helmetTokenURI.substring(29), 'Base64');
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: helmetTokenId, uri: helmetTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(yourETHLogoBalance > tokenIndex){
-            const ethlogoTokenId = await readContracts.ETHLogo.tokenOfOwnerByIndex(address, tokenIndex);
-            const ethlogoTokenURI = await readContracts.ETHLogo.tokenURI(ethlogoTokenId);
-            const jsonManifestString = Buffer.from(ethlogoTokenURI.substring(29), 'Base64');
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: ethlogoTokenId, uri: ethlogoTokenURI, owner: address, ...jsonManifest });
-            } catch (e) {
-              console.log(e);
-            }
-            
-          }
-          if(yourSwordBalance > tokenIndex) {
-            const swordTokenId = await readContracts.Sword.tokenOfOwnerByIndex(address, tokenIndex);
-            const swordTokenURI = await readContracts.Sword.tokenURI(swordTokenId);
-            const jsonManifestString = Buffer.from(swordTokenURI.substring(29), 'Base64');
-            try {
-              const jsonManifest = JSON.parse(jsonManifestString);
-              console.log("jsonManifest", jsonManifest);
-              capeUpdate.push({ id: swordTokenId, uri: swordTokenURI, owner: address, ...jsonManifest });
-              console.log(capeUpdate);
-            } catch (e) {
-              console.log(e);
-            }
-
-          } 
+          const tokenId = await readContracts[contracts[i]].tokenOfOwnerByIndex(address, tokenIndex);
+          const tokenURI = await readContracts[contracts[i]].tokenURI(tokenId);
+          const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+          const jsonManifest = JSON.parse(jsonManifestString);
+          collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: contracts[i], ...jsonManifest });
         } catch (e) {
           console.log(e);
         }
+      }
+    }
+    setYourCollectable(collectableUpdate);
+  }
+  useEffect(() => {
+    updateYourCollectables();
+  }, [address, yourCapeBalance, yourArmsBalance, yourChestBalance, yourCapeFrontBalance, yourBootsBalance, yourWaistBalance, yourHeadmailBalance])
+
+    const [allGuidlers, setAllGuidlers] = useState({});
+    let allGuidlerUpdate = [];
+      
     
-        setYourCape(capeUpdate.reverse());
-        updateGuidler();
-      };
-      updateYourCollectibles();
-    }, [address, yourCapeBalance, yourGuidlerBalance]);
-    
+async function getTokenInfo() {
+  try {
+    const totalSupply = readContracts.Noob && await readContracts.Noob.totalSupply();
+    const totalNum = totalSupply && totalSupply.toNumber();
+
+    for (let i = 1; i <= totalNum; i++) {
+      const tokenId = i;
+      const owner = await readContracts.Noob.ownerOf(tokenId);
+      const tokenURI = await readContracts.Noob.tokenURI(tokenId);
+      const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+
+      try {
+        const jsonManifest = JSON.parse(jsonManifestString);
+        allGuidlerUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  setAllGuidlers(allGuidlerUpdate.reverse());
+}
+
+getTokenInfo();
+
+   
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -544,7 +443,8 @@ function App(props) {
 
       <Stack direction={"row"} align={"center"} justify={"center"} spacing={77}>
         <Link to={"/"}>Guilder</Link>
-        <Link to={"/compose"}>Compose</Link>
+        <Link to={"/collectable"}>Collectables</Link>
+        <Link to={"/guidlers"}>Guidlers</Link>
       </Stack>
 
       <Switch>
@@ -601,7 +501,6 @@ function App(props) {
                 yourGuidler.map(item => {
                   const id = item.id.toNumber();
 
-                  console.log("IMAGE", item.image);
 
                   return (
                     <ListItem key={id + "_" + item.uri + "_" + item.owner}>
@@ -637,23 +536,12 @@ function App(props) {
                           <Button
                             onClick={() => {
                               console.log("writeContracts", writeContracts);
-                              tx(writeContracts.Cape.transferFrom(address, transferToAddresses[id], id));
+                              tx(writeContracts.Noob.transferFrom(address, transferToAddresses[id], id));
                             }}
                           >
                             Transfer
                           </Button>
                           <br />
-                          <br />
-                          {/* <Button
-                            onClick={async () => {
-                              setPending(true);
-                              await tx(writeContracts.Happi.returnAllSmiles(id));
-                              setPending(false);
-                            }}
-                            isLoading={pending}
-                          >
-                            Remove Smiles
-                          </Button> */}
                         </HStack>
                       </Flex>
                     </ListItem>
@@ -664,7 +552,7 @@ function App(props) {
         </Route>
 
 
-        <Route exact path="/compose">
+        <Route exact path="/collectable">
         <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
             <Button
               onClick={async () => {
@@ -687,105 +575,246 @@ function App(props) {
             </Button>
           </div>
           {/* */}
-          <Container boxShadow="dark-lg" rounded="2xl" p={4} w={"fit-content"}>
-            <List>
-              {yourCape &&
-                yourCape.map(item => {
+            <Grid templateColumns='repeat(3, 1fr)' gap={6}>
+              {yourCollectable &&
+                yourCollectable.map((item, index) => {
                   const id = item.id.toNumber();
+                  const contract = item.contract;
+                  console.log(contract);
 
                   return (
-                    <ListItem key={id + "_" + item.uri + "_" + item.owner}>
-                      <Flex direction={"row"} align={"center"}>
-                        <Heading>
-                          <div>
-                            <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
-                          </div>
-                        </Heading>
-                        <Image h={"244"} src={item.image} />
-                        {/* <div>{item.description}</div> */}
-                      </Flex>
-                      <Flex my={2} alignItems={"center"} justify={"center"} direction={"column"}>
-                        <Flex direction={"row"} justify={"center"} align={"center"}>
-                          <Text pr={2}>Owner</Text>
-                          <Address
-                            address={item.owner}
-                            ensProvider={mainnetProvider}
-                            blockExplorer={blockExplorer}
-                            fontSize={16}
-                          />
+                    <Container boxShadow="dark-lg" rounded="2xl" p={4} my={5} w={"fit-content"}>
+                      <GridItem key={id + "_" + item.uri + "_" + item.owner + "_" + index}>
+                        <Flex direction={"column"} align={"center"}> 
+                          <Heading>
+                            <div>
+                              <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
+                            </div>
+                          </Heading>
+                          <Image h={"244"} src={item.image} />
+                          <div>{item.description}</div>
                         </Flex>
-                        <Flex direction={"column"} alignItems={"center"} w={"fit-content"}>
-                          {/* <AddressInput
-                            ensProvider={mainnetProvider}
-                            placeholder="transfer to address"
-                            value={transferToAddresses[id]}
-                            onChange={newValue => {
-                              const update = {};
-                              update[id] = newValue;
-                              setTransferToAddresses({ ...transferToAddresses, ...update });
-                            }}
-                          />
-                          <Button
-                            my={3}
-                            onClick={() => {
-                              console.log("writeContracts", writeContracts);
-                              tx(writeContracts.Cape.transferFrom(address, transferToAddresses[id], id));
-                            }}
-                          >
-                            Transfer
-                          </Button> */}
-                          <br />
+                        <Flex my={2} alignItems={"center"} justify={"center"} direction={"column"}>
                           <Flex direction={"row"} justify={"center"} align={"center"}>
-                            <Text pr={2}>Transfer to Guidler:</Text>
+                            <Text pr={2}>Owner</Text>
                             <Address
-                              address={readContracts.Noob.address}
+                              address={item.owner}
+                              ensProvider={mainnetProvider}
                               blockExplorer={blockExplorer}
                               fontSize={16}
                             />
                           </Flex>
+                          <Flex direction={"column"} alignItems={"center"} w={"fit-content"}>
+                            <br />
+                            <Flex direction={"row"} justify={"center"} align={"center"}>
+                              <Text pr={2}>Transfer to Guidler:</Text>
+                              <Address
+                                address={readContracts.Noob.address}
+                                blockExplorer={blockExplorer}
+                                fontSize={16}
+                              />
+                            </Flex>
 
-                          <Input
-                            placeholder="GUIDLER ID"
-                            onChange={newValue => {
-                              console.log("newValue", newValue.target.value);
-                              const update = {};
-                              update[id] = newValue.target.value;
-                              console.log(update);
-                              console.log(transferToGuidlerId);
-                              setTransferToGuidlerId({ ...transferToGuidlerId, ...update });
-                            }}
-                          />
+                            <Input
+                              placeholder="GUIDLER ID"
+                              onChange={newValue => {
+                                console.log("newValue", newValue.target.value);
+                                const update = {};
+                                update[id] = newValue.target.value;
+                                console.log(update);
+                                console.log(transferToGuidlerId);
+                                setTransferToGuidlerId({ ...transferToGuidlerId, ...update });
+                              }}
+                            />
 
-                          <Button
-                            my={2}
-                            onClick={() => {
-                              console.log("writeContracts", writeContracts);
-                              console.log("transferToGuidlerId[id]", transferToGuidlerId[id]);
-                              console.log(parseInt(transferToGuidlerId[id]));
+                            <Button
+                              my={2}
+                              onClick={() => {
+                                console.log("writeContracts", writeContracts);
+                                console.log("transferToGuidlerId[id]", transferToGuidlerId[id]);
+                                console.log(parseInt(transferToGuidlerId[id]));
 
-                              const guidlerIdInBytes =
-                                "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                              console.log(guidlerIdInBytes);
+                                if(contract == "Cape") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
 
-                              tx(
-                                writeContracts.Cape["safeTransferFrom(address,address,uint256,bytes)"](
-                                  address,
-                                  readContracts.Noob.address,
-                                  id,
-                                  guidlerIdInBytes,
-                                ),
-                              );
-                            }}
-                          >
-                            Transfer
-                          </Button>
+                                  tx(
+                                    writeContracts.Cape["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "Arms") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.Arms["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "Chest") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.Chest["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "CapeFront") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.CapeFront["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "Boots") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.Boots["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "Waist") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.Waist["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "HeadMail") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.HeadMail["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "Helmet") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.Helmet["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "ETHLogo") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.ETHLogo["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else if(contract == "Sword") {
+                                  const guidlerIdInBytes =
+                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                                  console.log(guidlerIdInBytes);
+
+                                  tx(
+                                    writeContracts.Sword["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                } else {
+                                  // Implement error handling
+                                  console.error("Error");;
+                                }
+                              }}
+                            >
+                              Transfer
+                            </Button>
+                          </Flex>
                         </Flex>
-                      </Flex>
-                    </ListItem>
+                      </GridItem>
+                </Container>
                   );
                 })}
-            </List>
-          </Container>
+            </Grid>
+          {/* */}
+        </Route>
+        <Route exact path="/guidlers">
+        
+            <Grid templateColumns='repeat(3, 1fr)' gap={6}>
+              {yourCollectable &&
+                yourCollectable.map(item => {
+                  const id = item.id.toNumber();
+                  return (
+                    <Container boxShadow="dark-lg" rounded="2xl" p={4} my={5} w={"fit-content"}>
+                      <GridItem key={id + "_" + item.uri + "_" + item.owner}>
+                        <Flex direction={"column"} align={"center"}>
+                          <Heading>
+                            <div>
+                              <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
+                            </div>
+                          </Heading>
+                          <Image h={"244"} src={item.image} />
+                          {/* <div>{item.description}</div> */}
+                        </Flex>
+                        <Flex my={2} alignItems={"center"} justify={"center"} direction={"column"}>
+                          <Flex direction={"row"} justify={"center"} align={"center"}>
+                            <Text pr={2}>Owner</Text>
+                            <Address
+                              address={item.owner}
+                              ensProvider={mainnetProvider}
+                              blockExplorer={blockExplorer}
+                              fontSize={16}
+                            />
+                          </Flex>
+                        </Flex>
+                      </GridItem>
+                </Container>
+                  );
+                })}
+            </Grid>
           {/* */}
         </Route>
       </Switch>
