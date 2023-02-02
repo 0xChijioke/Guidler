@@ -48,6 +48,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
+import { Guidlers } from "./views";
 
 const { ethers } = require("ethers");
 /*
@@ -291,37 +292,7 @@ function App(props) {
     updateYourCollectables();
   }, [address, yourCapeBalance, yourArmsBalance, yourChestBalance, yourCapeFrontBalance, yourBootsBalance, yourWaistBalance, yourHeadmailBalance])
 
-    const [allGuidlers, setAllGuidlers] = useState({});
-    let allGuidlerUpdate = [];
-      
     
-async function getTokenInfo() {
-  try {
-    const totalSupply = readContracts.Noob && await readContracts.Noob.totalSupply();
-    const totalNum = totalSupply && totalSupply.toNumber();
-
-    for (let i = 1; i <= totalNum; i++) {
-      const tokenId = i;
-      const owner = await readContracts.Noob.ownerOf(tokenId);
-      const tokenURI = await readContracts.Noob.tokenURI(tokenId);
-      const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
-
-      try {
-        const jsonManifest = JSON.parse(jsonManifestString);
-        allGuidlerUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  } catch (err) {
-    console.error(err);
-  }
-  setAllGuidlers(allGuidlerUpdate.reverse());
-}
-
-getTokenInfo();
-
-   
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -634,141 +605,38 @@ getTokenInfo();
                                 console.log("transferToGuidlerId[id]", transferToGuidlerId[id]);
                                 console.log(parseInt(transferToGuidlerId[id]));
 
-                                if(contract == "Cape") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
+                                const guidlerIdInBytes = "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
 
-                                  tx(
-                                    writeContracts.Cape["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "Arms") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.Arms["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "Chest") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.Chest["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "CapeFront") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.CapeFront["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "Boots") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.Boots["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "Waist") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.Waist["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "HeadMail") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.HeadMail["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "Helmet") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.Helmet["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "ETHLogo") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.ETHLogo["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else if(contract == "Sword") {
-                                  const guidlerIdInBytes =
-                                  "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
-                                  console.log(guidlerIdInBytes);
-
-                                  tx(
-                                    writeContracts.Sword["safeTransferFrom(address,address,uint256,bytes)"](
-                                      address,
-                                      readContracts.Noob.address,
-                                      id,
-                                      guidlerIdInBytes,
-                                    ),
-                                  );
-                                } else {
-                                  // Implement error handling
-                                  console.error("Error");;
+                                switch (contract) {
+                                  case "Cape":
+                                    tx(writeContracts.Cape["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
+                                    break;
+                                  case "Arms":
+                                    tx(writeContracts.Arms["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
+                                    break;
+                                  case "Chest":
+                                    tx(writeContracts.Chest["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
+                                    break;
+                                  case "CapeFront":
+                                    tx(writeContracts.CapeFront["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
+                                    break;
+                                  case "Boots":
+                                    tx(writeContracts.Boots["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
+                                    break;
+                                  case "Waist":
+                                    tx(writeContracts.Waist["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
+                                    break;
+                                  case "HeadMail":
+                                    tx(writeContracts.HeadMail["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
+                                    break;
+                                  case "Helmet":
+                                    tx(writeContracts.Helmet["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
+                                    break;
+                                  default:
+                                    console.error("Invalid contract type: " + contract);
+                                  }
                                 }
-                              }}
+                              }
                             >
                               Transfer
                             </Button>
@@ -782,39 +650,10 @@ getTokenInfo();
           {/* */}
         </Route>
         <Route exact path="/guidlers">
-        
-            <Grid templateColumns='repeat(3, 1fr)' gap={6}>
-              {yourCollectable &&
-                yourCollectable.map(item => {
-                  const id = item.id.toNumber();
-                  return (
-                    <Container boxShadow="dark-lg" rounded="2xl" p={4} my={5} w={"fit-content"}>
-                      <GridItem key={id + "_" + item.uri + "_" + item.owner}>
-                        <Flex direction={"column"} align={"center"}>
-                          <Heading>
-                            <div>
-                              <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
-                            </div>
-                          </Heading>
-                          <Image h={"244"} src={item.image} />
-                          {/* <div>{item.description}</div> */}
-                        </Flex>
-                        <Flex my={2} alignItems={"center"} justify={"center"} direction={"column"}>
-                          <Flex direction={"row"} justify={"center"} align={"center"}>
-                            <Text pr={2}>Owner</Text>
-                            <Address
-                              address={item.owner}
-                              ensProvider={mainnetProvider}
-                              blockExplorer={blockExplorer}
-                              fontSize={16}
-                            />
-                          </Flex>
-                        </Flex>
-                      </GridItem>
-                </Container>
-                  );
-                })}
-            </Grid>
+          <Guidlers
+            readContracts={readContracts}
+            address={address}
+          />
           {/* */}
         </Route>
       </Switch>
