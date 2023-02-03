@@ -33,3 +33,4 @@ yarn deploy
 # TODO
 - Display all Guidlers and their owners in the Guidlers page.
 - Make sure a user without a Noob minted can't mint other parts.
+- Make complete Guidler tradable.
