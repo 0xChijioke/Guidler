@@ -235,7 +235,6 @@ function App(props) {
 
   const yourGuidlerBalance = guidlerBalance && guidlerBalance.toNumber && guidlerBalance.toNumber();
 
-
   const [yourGuidler, setYourGuidler] = useState();
   const [yourCollectable, setYourCollectable] = useState();
 
@@ -249,9 +248,9 @@ function App(props) {
       console.log(readContracts.Noob.tokenURI(tokenId));
       const tokenURI = await readContracts.Noob.tokenURI(tokenId);
       console.log("tokenURI", tokenURI);
-      const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+      const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
       console.log("jsonManifestString", jsonManifestString);
-  
+
       try {
         const jsonManifest = JSON.parse(jsonManifestString);
         console.log("jsonManifest", jsonManifest);
@@ -264,139 +263,216 @@ function App(props) {
     }
     setYourGuidler(guidlerUpdate.reverse());
   }
-  
 
   const updateYourCollectables = async () => {
     const collectableUpdate = [];
-  
-    if(yourCapeBalance > 0) {
+
+    if (yourCapeBalance > 0) {
       try {
         const tokenId = await readContracts.Cape.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.Cape.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'Cape', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "Cape",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    
-    if(yourArmsBalance > 0) {
+
+    if (yourArmsBalance > 0) {
       try {
         const tokenId = await readContracts.Arms.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.Arms.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'Arms', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "Arms",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    if(yourChestBalance > 0) {
+    if (yourChestBalance > 0) {
       try {
         const tokenId = await readContracts.Chest.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.Chest.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'Chest', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "Chest",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    if(yourCapeFrontBalance > 0) {
+    if (yourCapeFrontBalance > 0) {
       try {
         const tokenId = await readContracts.CapeFront.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.CapeFront.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'CapeFront', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "CapeFront",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    if(yourBootsBalance > 0) {
+    if (yourBootsBalance > 0) {
       try {
         const tokenId = await readContracts.Boots.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.Boots.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'Boots', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "Boots",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    if(yourWaistBalance > 0) {
+    if (yourWaistBalance > 0) {
       try {
         const tokenId = await readContracts.Waist.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.Waist.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'Waist', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "Waist",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    if(yourHeadmailBalance > 0) {
+    if (yourHeadmailBalance > 0) {
       try {
         const tokenId = await readContracts.Headmail.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.Headmail.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'Headmail', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "Headmail",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    if(yourHelmetBalance > 0) {
+    if (yourHelmetBalance > 0) {
       try {
         const tokenId = await readContracts.Helmet.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.Helmet.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'Helmet', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "Helmet",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    if(yourETHLogoBalance > 0) {
+    if (yourETHLogoBalance > 0) {
       try {
         const tokenId = await readContracts.ETHLogo.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.ETHLogo.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'ETHLogo', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "ETHLogo",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-    if(yourSwordBalance > 0) {
+    if (yourSwordBalance > 0) {
       try {
         const tokenId = await readContracts.Sword.tokenOfOwnerByIndex(address, 0);
         const tokenURI = await readContracts.Sword.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), 'Base64');
+        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
         const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({ key: tokenId, id: tokenId, uri: tokenURI, owner: address, contract: 'Sword', ...jsonManifest });
+        collectableUpdate.push({
+          key: tokenId,
+          id: tokenId,
+          uri: tokenURI,
+          owner: address,
+          contract: "Sword",
+          ...jsonManifest,
+        });
       } catch (e) {
         console.log(e);
       }
     }
-  
+
     // Repeat for each contract
-  
+
     setYourCollectable(collectableUpdate.reverse());
-  }
+  };
 
-
-  // useEffect(() => {
-  //   updateYourCollectables();
-  // }, [address, yourCapeBalance, yourArmsBalance, yourChestBalance, yourCapeFrontBalance, yourBootsBalance, yourWaistBalance, yourHeadmailBalance, yourHelmetBalance, yourETHLogoBalance, yourSwordBalance])
-  
-  
   useEffect(() => {
-  updateYourGuidler();
-  }, [address, yourGuidlerBalance]);
+    updateYourCollectables();
+  }, [
+    address,
+    yourCapeBalance,
+    yourArmsBalance,
+    yourChestBalance,
+    yourCapeFrontBalance,
+    yourBootsBalance,
+    yourWaistBalance,
+    yourHeadmailBalance,
+    yourHelmetBalance,
+    yourETHLogoBalance,
+    yourSwordBalance,
+  ]);
 
-    
+  useEffect(() => {
+    updateGuidler();
+  }, [address, yourGuidlerBalance]);
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -550,7 +626,7 @@ function App(props) {
             contractConfig={contractConfig}
           />
         </Route> */}
-        <Route exact path="/">          
+        <Route exact path="/">
           <Flex w={"full"} direction={"row-reverse"}>
             <Button
               mr={5}
@@ -575,7 +651,6 @@ function App(props) {
               {yourGuidler &&
                 yourGuidler.map(item => {
                   const id = item.id.toNumber();
-
 
                   return (
                     <ListItem key={id + "_" + item.uri + "_" + item.owner}>
@@ -626,9 +701,8 @@ function App(props) {
           </Container>
         </Route>
 
-
         <Route exact path="/collectable">
-        <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
+          <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
             <Button
               onClick={async () => {
                 setPending(true);
@@ -650,107 +724,159 @@ function App(props) {
             </Button>
           </div>
           {/* */}
-            <Grid templateColumns='repeat(3, 1fr)' gap={6}>
-              {yourCollectable &&
-                yourCollectable.map((item, index) => {
-                  const id = item.id.toNumber();
-                  const contract = item.contract;
-                  console.log(contract);
+          <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+            {yourCollectable &&
+              yourCollectable.map((item, index) => {
+                const id = item.id.toNumber();
+                const contract = item.contract;
+                console.log(contract);
 
-                  return (
-                    <Container boxShadow="dark-lg" rounded="2xl" p={4} my={5} w={"fit-content"}>
-                      <GridItem key={id + "_" + item.uri + "_" + item.owner + "_" + index}>
-                        <Flex direction={"column"} align={"center"}> 
-                          <Heading>
-                            <div>
-                              <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
-                            </div>
-                          </Heading>
-                          <Image h={"244"} src={item.image} />
-                          <div>{item.description}</div>
+                return (
+                  <Container boxShadow="dark-lg" rounded="2xl" p={4} my={5} w={"fit-content"}>
+                    <GridItem key={id + "_" + item.uri + "_" + item.owner + "_" + index}>
+                      <Flex direction={"column"} align={"center"}>
+                        <Heading>
+                          <div>
+                            <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
+                          </div>
+                        </Heading>
+                        <Image h={"244"} src={item.image} />
+                        <div>{item.description}</div>
+                      </Flex>
+                      <Flex my={2} alignItems={"center"} justify={"center"} direction={"column"}>
+                        <Flex direction={"row"} justify={"center"} align={"center"}>
+                          <Text pr={2}>Owner</Text>
+                          <Address
+                            address={item.owner}
+                            ensProvider={mainnetProvider}
+                            blockExplorer={blockExplorer}
+                            fontSize={16}
+                          />
                         </Flex>
-                        <Flex my={2} alignItems={"center"} justify={"center"} direction={"column"}>
+                        <Flex direction={"column"} alignItems={"center"} w={"fit-content"}>
+                          <br />
                           <Flex direction={"row"} justify={"center"} align={"center"}>
-                            <Text pr={2}>Owner</Text>
-                            <Address
-                              address={item.owner}
-                              ensProvider={mainnetProvider}
-                              blockExplorer={blockExplorer}
-                              fontSize={16}
-                            />
+                            <Text pr={2}>Transfer to Guidler:</Text>
+                            <Address address={readContracts.Noob.address} blockExplorer={blockExplorer} fontSize={16} />
                           </Flex>
-                          <Flex direction={"column"} alignItems={"center"} w={"fit-content"}>
-                            <br />
-                            <Flex direction={"row"} justify={"center"} align={"center"}>
-                              <Text pr={2}>Transfer to Guidler:</Text>
-                              <Address
-                                address={readContracts.Noob.address}
-                                blockExplorer={blockExplorer}
-                                fontSize={16}
-                              />
-                            </Flex>
 
-                            <Input
-                              placeholder="GUIDLER ID"
-                              onChange={newValue => {
-                                console.log("newValue", newValue.target.value);
-                                const update = {};
-                                update[id] = newValue.target.value;
-                                console.log(update);
-                                console.log(transferToGuidlerId);
-                                setTransferToGuidlerId({ ...transferToGuidlerId, ...update });
-                              }}
-                            />
+                          <Input
+                            placeholder="GUIDLER ID"
+                            onChange={newValue => {
+                              console.log("newValue", newValue.target.value);
+                              const update = {};
+                              update[id] = newValue.target.value;
+                              console.log(update);
+                              console.log(transferToGuidlerId);
+                              setTransferToGuidlerId({ ...transferToGuidlerId, ...update });
+                            }}
+                          />
 
-                            <Button
-                              my={2}
-                              onClick={() => {
-                                console.log("writeContracts", writeContracts);
-                                console.log("transferToGuidlerId[id]", transferToGuidlerId[id]);
-                                console.log(parseInt(transferToGuidlerId[id]));
+                          <Button
+                            my={2}
+                            onClick={() => {
+                              console.log("writeContracts", writeContracts);
+                              console.log("transferToGuidlerId[id]", transferToGuidlerId[id]);
+                              console.log(parseInt(transferToGuidlerId[id]));
 
-                                const guidlerIdInBytes = "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
+                              const guidlerIdInBytes =
+                                "0x" + parseInt(transferToGuidlerId[id]).toString(16).padStart(64, "0");
 
-                                switch (contract) {
-                                  case "Cape":
-                                    tx(writeContracts.Cape["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
-                                    break;
-                                  case "Arms":
-                                    tx(writeContracts.Arms["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
-                                    break;
-                                  case "Chest":
-                                    tx(writeContracts.Chest["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
-                                    break;
-                                  case "CapeFront":
-                                    tx(writeContracts.CapeFront["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
-                                    break;
-                                  case "Boots":
-                                    tx(writeContracts.Boots["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
-                                    break;
-                                  case "Waist":
-                                    tx(writeContracts.Waist["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
-                                    break;
-                                  case "HeadMail":
-                                    tx(writeContracts.HeadMail["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
-                                    break;
-                                  case "Helmet":
-                                    tx(writeContracts.Helmet["safeTransferFrom(address,address,uint256,bytes)"](address, readContracts.Noob.address, id, guidlerIdInBytes));
-                                    break;
-                                  default:
-                                    console.error("Invalid contract type: " + contract);
-                                  }
-                                }
+                              switch (contract) {
+                                case "Cape":
+                                  tx(
+                                    writeContracts.Cape["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                  break;
+                                case "Arms":
+                                  tx(
+                                    writeContracts.Arms["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                  break;
+                                case "Chest":
+                                  tx(
+                                    writeContracts.Chest["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                  break;
+                                case "CapeFront":
+                                  tx(
+                                    writeContracts.CapeFront["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                  break;
+                                case "Boots":
+                                  tx(
+                                    writeContracts.Boots["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                  break;
+                                case "Waist":
+                                  tx(
+                                    writeContracts.Waist["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                  break;
+                                case "HeadMail":
+                                  tx(
+                                    writeContracts.HeadMail["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                  break;
+                                case "Helmet":
+                                  tx(
+                                    writeContracts.Helmet["safeTransferFrom(address,address,uint256,bytes)"](
+                                      address,
+                                      readContracts.Noob.address,
+                                      id,
+                                      guidlerIdInBytes,
+                                    ),
+                                  );
+                                  break;
+                                default:
+                                  console.error("Invalid contract type: " + contract);
                               }
-                            >
-                              Transfer
-                            </Button>
-                          </Flex>
+                            }}
+                          >
+                            Transfer
+                          </Button>
                         </Flex>
-                      </GridItem>
-                </Container>
-                  );
-                })}
-            </Grid>
+                      </Flex>
+                    </GridItem>
+                  </Container>
+                );
+              })}
+          </Grid>
           {/* */}
         </Route>
         {/* <Route exact path="/guidlers">
