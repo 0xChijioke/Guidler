@@ -47,6 +47,8 @@ import externalContracts from "./contracts/external_contracts";
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
+import { updateGuidler } from "./helpers/updateGuidler";
+import { updateYourcollectables } from "./helpers/updateYourcollectables";
 import { useStaticJsonRPC } from "./hooks";
 import { Guidlers } from "./views";
 
@@ -74,7 +76,7 @@ const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
-const DEBUG = true;
+const DEBUG = false;
 const NETWORKCHECK = true;
 const USE_BURNER_WALLET = true; // toggle burner wallet feature
 const USE_NETWORK_SELECTOR = false;
@@ -238,224 +240,22 @@ function App(props) {
   const [yourGuidler, setYourGuidler] = useState();
   const [yourCollectable, setYourCollectable] = useState();
 
-  async function updateGuidler() {
-    const guidlerUpdate = [];
-
-    try {
-      console.log("Getting token index 0");
-      const tokenId = await readContracts.Noob.tokenOfOwnerByIndex(address, 0);
-      console.log("tokenId", tokenId);
-      console.log(readContracts.Noob.tokenURI(tokenId));
-      const tokenURI = await readContracts.Noob.tokenURI(tokenId);
-      console.log("tokenURI", tokenURI);
-      const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-      console.log("jsonManifestString", jsonManifestString);
-
-      try {
-        const jsonManifest = JSON.parse(jsonManifestString);
-        console.log("jsonManifest", jsonManifest);
-        setYourGuidler([{ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest }].reverse());
-      } catch (e) {
-        console.log(e);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    setYourGuidler(guidlerUpdate.reverse());
-  }
-
-  const updateYourCollectables = async () => {
-    const collectableUpdate = [];
-
-    if (yourCapeBalance > 0) {
-      try {
-        const tokenId = await readContracts.Cape.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.Cape.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "Cape",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    if (yourArmsBalance > 0) {
-      try {
-        const tokenId = await readContracts.Arms.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.Arms.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "Arms",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (yourChestBalance > 0) {
-      try {
-        const tokenId = await readContracts.Chest.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.Chest.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "Chest",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (yourCapeFrontBalance > 0) {
-      try {
-        const tokenId = await readContracts.CapeFront.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.CapeFront.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "CapeFront",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (yourBootsBalance > 0) {
-      try {
-        const tokenId = await readContracts.Boots.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.Boots.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "Boots",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (yourWaistBalance > 0) {
-      try {
-        const tokenId = await readContracts.Waist.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.Waist.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "Waist",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (yourHeadmailBalance > 0) {
-      try {
-        const tokenId = await readContracts.Headmail.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.Headmail.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "Headmail",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (yourHelmetBalance > 0) {
-      try {
-        const tokenId = await readContracts.Helmet.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.Helmet.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "Helmet",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (yourETHLogoBalance > 0) {
-      try {
-        const tokenId = await readContracts.ETHLogo.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.ETHLogo.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "ETHLogo",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (yourSwordBalance > 0) {
-      try {
-        const tokenId = await readContracts.Sword.tokenOfOwnerByIndex(address, 0);
-        const tokenURI = await readContracts.Sword.tokenURI(tokenId);
-        const jsonManifestString = Buffer.from(tokenURI.substring(29), "Base64");
-        const jsonManifest = JSON.parse(jsonManifestString);
-        collectableUpdate.push({
-          key: tokenId,
-          id: tokenId,
-          uri: tokenURI,
-          owner: address,
-          contract: "Sword",
-          ...jsonManifest,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    // Repeat for each contract
-
-    setYourCollectable(collectableUpdate.reverse());
-  };
-
   useEffect(() => {
-    updateYourCollectables();
+    updateYourcollectables(
+      readContracts,
+      address,
+      yourCapeBalance,
+      yourArmsBalance,
+      yourBootsBalance,
+      yourCapeFrontBalance,
+      yourChestBalance,
+      yourETHLogoBalance,
+      yourHeadmailBalance,
+      yourHelmetBalance,
+      yourSwordBalance,
+      yourWaistBalance,
+      setYourCollectable,
+    );
   }, [
     address,
     yourCapeBalance,
@@ -468,11 +268,12 @@ function App(props) {
     yourHelmetBalance,
     yourETHLogoBalance,
     yourSwordBalance,
+    readContracts,
   ]);
 
   useEffect(() => {
-    updateGuidler();
-  }, [address, yourGuidlerBalance]);
+    updateGuidler(readContracts, address, setYourGuidler);
+  }, [address, readContracts, yourGuidlerBalance]);
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -515,6 +316,8 @@ function App(props) {
     readContracts,
     writeContracts,
     mainnetContracts,
+    localChainId,
+    myMainnetDAIBalance,
   ]);
 
   const loadWeb3Modal = useCallback(async () => {
