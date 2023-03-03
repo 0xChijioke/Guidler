@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -18,18 +18,13 @@ contract Boots is ERC721Enumerable, Ownable {
 
   constructor() ERC721("Boots", "BOOTS") {}
 
-  function mintItem()
-      public
-      payable
-      returns (uint256)
-  {
-      //require(msg.value >= price, "Not enough ETH");
-      _tokenIds.increment();
+  function mintItem() public payable returns (uint256) {
+    require(balanceOf(msg.sender) == 0, "User has already minted an NFT");
 
-      uint256 id = _tokenIds.current();
-      _mint(msg.sender, id);
-
-      return id;
+    _tokenIds.increment();
+    uint256 id = _tokenIds.current();
+    _mint(msg.sender, id);
+    return id;
   }
 
   function tokenURI(uint256 id) public view override returns (string memory) {

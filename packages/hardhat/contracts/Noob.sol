@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
@@ -118,15 +118,13 @@ contract Noob is ERC721Enumerable, IERC721Receiver {
         return _totalSupply;
     }
 
-  function mintItem() public returns (uint256) {
+  function mintItem() public payable returns (uint256) {
+    require(balanceOf(msg.sender) == 0, "User has already minted an NFT");
 
-
-      _tokenIds.increment();
-      _totalSupply++;
-      uint256 id = _tokenIds.current();
-      _mint(msg.sender, id);
-
-      return id;
+    _tokenIds.increment();
+    uint256 id = _tokenIds.current();
+    _mint(msg.sender, id);
+    return id;
   }
 
   
